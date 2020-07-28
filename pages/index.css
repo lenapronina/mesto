@@ -12,7 +12,15 @@
 @import url(../blocks/profile/__edit-button/profile__edit-button.css);
 @import url(../blocks/profile/__add-button/profile__add-button.css);
 
+@import url(../blocks/mesto-cards/mesto-cards.css);
+@import url(../blocks/mesto-card/mesto-card.css);
+@import url(../blocks/mesto-card/__image/mesto-card__image.css);
+@import url(../blocks/mesto-card/__info/mesto-card__info.css);
+@import url(../blocks/mesto-card/__title/mesto-card__title.css);
+@import url(../blocks/mesto-card/__like/mesto-card__like.css);
+
 
 @import url(../blocks/page/__header/page__header.css);
 @import url(../blocks/page/__main/page__main.css);
+@import url(../blocks/main/__mesto-cards/main__mesto-cards.css);
 

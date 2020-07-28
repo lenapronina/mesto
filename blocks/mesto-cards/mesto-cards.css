@@ -1,0 +1,28 @@
+.mesto-cards {
+  margin: 0 auto;
+  max-width: 882px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(282px, 1fr));
+  column-gap: 18px;
+  row-gap: 21px;
+}
+
+@media (max-width: 1024px) {
+  .mesto-cards {
+    width: calc(100% - 200px);
+  }
+}
+
+@media (max-width: 768px) {
+  .mesto-cards {
+    width: calc(100% - 150px);
+  }
+}
+
+@media (max-width: 425px) {
+  .mesto-cards {
+    margin: 0 auto;
+    width: calc(100% - 38px);
+    grid-template-columns: 1fr;
+  }
+}

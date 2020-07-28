@@ -1,0 +1,14 @@
+.mesto-card__like {
+  width: 21px;
+  height: 19px;
+  background-image: url(../../../images/mesto-card-like.svg);
+  background-color: rgba(0,0,0,0);
+  background-position: center;
+  background-repeat: no-repeat;
+  border: none;
+  transition: all 0.5s ease-in-out;
+}
+
+.mesto-card__like:hover {
+  transform: scale(1.2);
+}

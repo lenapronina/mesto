@@ -4,3 +4,9 @@
   line-height: 1.22;
   color: #545454;
 }
+
+@media (max-width: 981px) {
+  .footer__copyright {
+    font-size: 14px;
+  }
+}

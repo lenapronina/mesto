@@ -3,15 +3,23 @@
   max-width: 336px;
   display: grid;
   grid-template-columns: repeat(2, max-content);
-  column-gap: 17px;
-  row-gap: 16px;
+  column-gap: 20px;
+  row-gap: 7px;
+}
+
+@media (max-width: 981px) {
+  .profile__info {
+    margin-left: 10px;
+    column-gap: 10px;
+  }
 }
 
 @media (max-width: 425px) {
   .profile__info {
     margin-left: 0px;
-    margin-top: 14px;
+    margin-top: 17px;
     max-width: 280px;
-    row-gap: 14px;
+    row-gap: 0px;
+    column-gap: 8px;
   }
 }

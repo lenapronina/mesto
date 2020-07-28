@@ -1,19 +1,19 @@
 .header {
   margin: 0 auto;
-  max-width: 864px;
+  max-width: 882px;
   display: flex;
   align-items: flex-start;
   opacity: 0.7;
   border-bottom: 1px solid #545454;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 981px) {
   .header {
-    width: calc(100% - 200px);
+    width: calc(100% - 250px);
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 600px) {
   .header {
     width: calc(100% - 150px);
   }

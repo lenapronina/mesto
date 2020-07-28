@@ -2,27 +2,29 @@
   margin: 0 auto;
   max-width: 882px;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(282px, 1fr));
+  justify-content: center;
+  grid-template-columns: repeat(auto-fit, 282px);
   column-gap: 18px;
   row-gap: 21px;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 981px) {
   .mesto-cards {
-    width: calc(100% - 200px);
+    width: calc(100% - 250px);
+    justify-content: space-around;
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 831px) {
   .mesto-cards {
-    width: calc(100% - 150px);
+    column-gap: 10px;
+    grid-template-columns: repeat(auto-fit, 250px);
   }
 }
 
-@media (max-width: 425px) {
+@media (max-width: 759px) {
   .mesto-cards {
-    margin: 0 auto;
-    width: calc(100% - 38px);
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(auto-fit, 282px);
+    row-gap: 20.25px;
   }
 }

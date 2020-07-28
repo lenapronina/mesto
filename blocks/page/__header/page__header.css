@@ -1,11 +1,5 @@
 .page__header {
-  padding-top: 45px;
-}
-
-@media (max-width: 768px) {
-  .page__header {
-    padding-top: 35px;
-  }
+  padding-top: 35px;
 }
 
 @media (max-width: 425px) {

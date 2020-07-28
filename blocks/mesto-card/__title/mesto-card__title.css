@@ -1,4 +1,5 @@
 .mesto-card__title {
+  margin: 0;
   max-width: 188px;
   font-weight: 900;
   font-size: 24px;
@@ -6,4 +7,18 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
+}
+
+@media (max-width: 831px) {
+  .mesto-card__title {
+    max-width: 150px;
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 759px) {
+  .mesto-card__title {
+    max-width: 188px;
+    font-size: 24px;
+  }
 }

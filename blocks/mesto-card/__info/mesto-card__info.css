@@ -1,7 +1,19 @@
 .mesto-card__info {
-  margin: 0 auto;
+  margin: 23px auto 25px;
   max-width: 246px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+@media (max-width: 831px) {
+  .mesto-card__info {
+    max-width: 200px;
+  }
+}
+
+@media (max-width: 759px) {
+  .mesto-card__info {
+    max-width: 246px;
+  }
 }

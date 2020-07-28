@@ -9,11 +9,16 @@
   overflow: hidden;
 }
 
-@media (max-width: 425px) {
+@media (max-width: 981px) {
   .profile__subtitle {
-    grid-column: 1/3;
     font-size: 14px;
     line-height: 1.22;
+  }
+}
+
+@media (max-width: 776px) {
+  .profile__subtitle {
+    grid-column: 1/3;
     text-align: center;
   }
 }

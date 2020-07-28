@@ -1,3 +1,9 @@
 .main__mesto-cards {
-  margin-top: 50px;
+  margin-top: 51px;
+}
+
+@media (max-width: 425px) {
+  .main__mesto-cards {
+    margin-top: 36px;
+  }
 }

@@ -1,6 +1,6 @@
 .mesto-card {
-  /* width: 282px; */
-  height: 361px;
+  max-width: 282px;
+  justify-self: center;
   background-color: #ffffff;
   border-radius: 10px;
 }

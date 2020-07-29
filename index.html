@@ -76,10 +76,13 @@
         <h2 class="popup__title">Редактировать профиль</h2>
         <button class="popup__close-button"></button>
       </div>
-      <input class="popup__input" type="text">
-      <input class="popup__input" type="text">
-      <button class="popup__submit-button" type="submit">Сохранить</button>
+      <form class="popup__form" name="popup-form">
+        <input class="popup__input" id="name" placeholder="Введите имя" type="text" required>
+        <input class="popup__input" id="job" placeholder="Введите род занятий" type="text" required>
+        <button class="popup__submit-button" type="submit">Сохранить</button>
+      </form>
     </div>
   </div>
+  <script src="./script/script.js"></script>
 </body>
 </html>

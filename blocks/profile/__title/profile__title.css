@@ -1,5 +1,6 @@
 .profile__title {
   margin: 0;
+  max-width: 295px;
   font-size: 42px;
   line-height: 1.33;
   font-weight: 500;
@@ -11,8 +12,15 @@
 
 @media (max-width: 981px) {
   .profile__title {
+    max-width: 250px;
     font-size: 27px;
     line-height: 1.95;
     text-align: center;
+  }
+}
+
+@media (max-width: 500px) {
+  .profile__title {
+    max-width: 200px;
   }
 }

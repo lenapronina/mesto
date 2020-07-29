@@ -1,0 +1,11 @@
+.popup__input {
+  margin: 0 auto 30px;
+  width: calc(100% - 72px);
+  height: 27.5px;
+  border:none;
+  border-bottom: 1px solid rgba(0, 0, 0, .2);
+}
+
+.popup__input:last-of-type {
+  margin-bottom: 48px;
+}

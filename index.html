@@ -11,8 +11,8 @@
     <header class="header page__header">
       <img class="header__logo" src="./images/header-logo.svg" alt="Логотип Mesto">
     </header>
-    <div class="main page__main">
-      <div class="profile">
+    <main class="main page__main">
+      <section class="profile">
         <div class="profile__avatar"></div>
         <div class="profile__info">
           <h1  class="profile__title">Жак-Ив Кусто</h1>
@@ -20,52 +20,54 @@
           <p class="profile__subtitle">Исследователь океана</p>
         </div>
         <button class="profile__add-button"></button>
-      </div>
-      <div class="mesto-cards main__mesto-cards">
-        <div class="mesto-card">
-          <img class="mesto-card__image" src="./images/mesto-card-image-sevastopol.jpg" alt="Херсонес">
-          <div class="mesto-card__info">
-            <h2 class="mesto-card__title">Севастополь</h2>
-            <button class="mesto-card__like"></button>
-          </div>
-        </div>
-        <div class="mesto-card">
-          <img class="mesto-card__image" src="./images/mesto-card-image-baikal.jpg" alt="Остров Ольхон">
-          <div class="mesto-card__info">
-            <h2 class="mesto-card__title">Остров Ольхон</h2>
-            <button class="mesto-card__like"></button>
-          </div>
-        </div>
-        <div class="mesto-card">
-          <img class="mesto-card__image" src="./images/mesto-card-image-elbrus.jpg" alt="Эльбрус">
-          <div class="mesto-card__info">
-            <h2 class="mesto-card__title">Эльбрус</h2>
-            <button class="mesto-card__like"></button>
-          </div>
-        </div>
-        <div class="mesto-card">
-          <img class="mesto-card__image" src="./images/mesto-card-image-kamchatka.jpg" alt="Горячие источники Камчатки">
-          <div class="mesto-card__info">
-            <h2 class="mesto-card__title">Камчатка</h2>
-            <button class="mesto-card__like"></button>
-          </div>
-        </div>
-        <div class="mesto-card">
-          <img class="mesto-card__image" src="./images/mesto-card-image-pyatigorsk.jpg" alt="Горы Пятигорска">
-          <div class="mesto-card__info">
-            <h2 class="mesto-card__title">Пятигорск</h2>
-            <button class="mesto-card__like"></button>
-          </div>
-        </div>
-        <div class="mesto-card">
-          <img class="mesto-card__image" src="./images/mesto-card-image-tbilisi.jpg" alt="Тбилиси">
-          <div class="mesto-card__info">
-            <h2 class="mesto-card__title">Тбилиси</h2>
-            <button class="mesto-card__like"></button>
-          </div>
-        </div>
-      </div>
-    </div>
+      </section>
+      <section class="mesto-collection main__mesto-collection">
+        <ul class="mesto-cards">
+          <li class="mesto-card">
+            <img class="mesto-card__image" src="./images/mesto-card-image-sevastopol.jpg" alt="Херсонес">
+            <div class="mesto-card__info">
+              <h2 class="mesto-card__title">Севастополь</h2>
+              <button class="mesto-card__like"></button>
+            </div>
+          </li>
+          <li class="mesto-card">
+            <img class="mesto-card__image" src="./images/mesto-card-image-baikal.jpg" alt="Остров Ольхон">
+            <div class="mesto-card__info">
+              <h2 class="mesto-card__title">Остров Ольхон</h2>
+              <button class="mesto-card__like"></button>
+            </div>
+          </li>
+          <li class="mesto-card">
+            <img class="mesto-card__image" src="./images/mesto-card-image-elbrus.jpg" alt="Эльбрус">
+            <div class="mesto-card__info">
+              <h2 class="mesto-card__title">Эльбрус</h2>
+              <button class="mesto-card__like"></button>
+            </div>
+          </li>
+          <li class="mesto-card">
+            <img class="mesto-card__image" src="./images/mesto-card-image-kamchatka.jpg" alt="Горячие источники Камчатки">
+            <div class="mesto-card__info">
+              <h2 class="mesto-card__title">Камчатка</h2>
+              <button class="mesto-card__like"></button>
+            </div>
+          </li>
+          <li class="mesto-card">
+            <img class="mesto-card__image" src="./images/mesto-card-image-pyatigorsk.jpg" alt="Горы Пятигорска">
+            <div class="mesto-card__info">
+              <h2 class="mesto-card__title">Пятигорск</h2>
+              <button class="mesto-card__like"></button>
+            </div>
+          </li>
+          <li class="mesto-card">
+            <img class="mesto-card__image" src="./images/mesto-card-image-tbilisi.jpg" alt="Тбилиси">
+            <div class="mesto-card__info">
+              <h2 class="mesto-card__title">Тбилиси</h2>
+              <button class="mesto-card__like"></button>
+            </div>
+          </li>
+        </ul>
+      </section>
+    </main>
     <footer class="footer">
       <p class="footer__copyright">&copy; 2020 Mesto Russia</p>
     </footer>
@@ -76,9 +78,9 @@
         <h2 class="popup__title">Редактировать профиль</h2>
         <button class="popup__close-button"></button>
       </div>
-      <form class="popup__form" name="popup-form">
-        <input class="popup__input" id="name" placeholder="Введите имя" type="text" required>
-        <input class="popup__input" id="job" placeholder="Введите род занятий" type="text" required>
+      <form class="popup__form" name="popup-form" method action="#">
+        <input class="popup__input" name="name" id="name" placeholder="Введите имя" type="text" required>
+        <input class="popup__input" name="job" id="job" placeholder="Введите род занятий" type="text" required>
         <button class="popup__submit-button" type="submit">Сохранить</button>
       </form>
     </div>

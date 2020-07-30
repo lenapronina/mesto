@@ -1,11 +1,13 @@
 .mesto-cards {
   margin: 0 auto;
+  padding: 0;
   max-width: 882px;
   display: grid;
   justify-content: center;
   grid-template-columns: repeat(auto-fit, 282px);
   column-gap: 18px;
   row-gap: 21px;
+  list-style: none;
 }
 
 @media (max-width: 981px) {

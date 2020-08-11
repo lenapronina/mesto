@@ -15,6 +15,7 @@
 @import url(../blocks/mesto-card/__image/mesto-card__image.css);
 @import url(../blocks/mesto-card/__info/mesto-card__info.css);
 @import url(../blocks/mesto-card/__title/mesto-card__title.css);
+@import url(../blocks/mesto-card/__trash/mesto-card__trash.css);
 @import url(../blocks/mesto-card/__like/mesto-card__like.css);
 @import url(../blocks/footer/footer.css);
 @import url(../blocks/footer/__copyright/footer__copyright.css);

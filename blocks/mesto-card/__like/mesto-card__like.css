@@ -6,9 +6,9 @@
   background-position: center;
   background-repeat: no-repeat;
   border: none;
-  transition: all 0.5s ease-in-out;
+  transition: opacity 0.3s linear;
 }
 
 .mesto-card__like:hover {
-  transform: scale(1.2);
+  opacity: 0.6;
 }

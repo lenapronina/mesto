@@ -22,50 +22,7 @@
         <button class="profile__add-button"></button>
       </section>
       <section class="mesto-collection main__mesto-collection">
-        <ul class="mesto-cards">
-          <li class="mesto-card">
-            <img class="mesto-card__image" src="./images/mesto-card-image-sevastopol.jpg" alt="Херсонес">
-            <div class="mesto-card__info">
-              <h2 class="mesto-card__title">Севастополь</h2>
-              <button class="mesto-card__like"></button>
-            </div>
-          </li>
-          <li class="mesto-card">
-            <img class="mesto-card__image" src="./images/mesto-card-image-baikal.jpg" alt="Остров Ольхон">
-            <div class="mesto-card__info">
-              <h2 class="mesto-card__title">Остров Ольхон</h2>
-              <button class="mesto-card__like"></button>
-            </div>
-          </li>
-          <li class="mesto-card">
-            <img class="mesto-card__image" src="./images/mesto-card-image-elbrus.jpg" alt="Эльбрус">
-            <div class="mesto-card__info">
-              <h2 class="mesto-card__title">Эльбрус</h2>
-              <button class="mesto-card__like"></button>
-            </div>
-          </li>
-          <li class="mesto-card">
-            <img class="mesto-card__image" src="./images/mesto-card-image-kamchatka.jpg" alt="Горячие источники Камчатки">
-            <div class="mesto-card__info">
-              <h2 class="mesto-card__title">Камчатка</h2>
-              <button class="mesto-card__like"></button>
-            </div>
-          </li>
-          <li class="mesto-card">
-            <img class="mesto-card__image" src="./images/mesto-card-image-pyatigorsk.jpg" alt="Горы Пятигорска">
-            <div class="mesto-card__info">
-              <h2 class="mesto-card__title">Пятигорск</h2>
-              <button class="mesto-card__like"></button>
-            </div>
-          </li>
-          <li class="mesto-card">
-            <img class="mesto-card__image" src="./images/mesto-card-image-tbilisi.jpg" alt="Тбилиси">
-            <div class="mesto-card__info">
-              <h2 class="mesto-card__title">Тбилиси</h2>
-              <button class="mesto-card__like"></button>
-            </div>
-          </li>
-        </ul>
+        <ul class="mesto-cards"></ul>
       </section>
     </main>
     <footer class="footer">
@@ -85,6 +42,16 @@
       </form>
     </div>
   </div>
+  <template id="mesto-card">
+    <li class="mesto-card">
+      <img class="mesto-card__image" src="" alt="">
+      <button class="mesto-card__trash"></button>
+      <div class="mesto-card__info">
+        <h2 class="mesto-card__title"></h2>
+        <button class="mesto-card__like"></button>
+      </div>
+    </li>
+  </template>
   <script src="./scripts/script.js"></script>
 </body>
 </html>

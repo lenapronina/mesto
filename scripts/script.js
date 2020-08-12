@@ -2,6 +2,7 @@ const editButton = document.querySelector('.profile__edit-button');
 const closeButton = document.querySelector('.popup__close-button');
 const submitButton = document.querySelector('.popup__submit-button');
 
+
 const nameOutput = document.querySelector('.profile__title');
 const jobOutput = document.querySelector('.profile__subtitle');
 
@@ -68,6 +69,7 @@ function fillFields(){
   jobInput.value = jobOutput.textContent;
 }
 
+
 // Rewriting profile data with input fields + hiding popup
 function formSubmitHandler (evt) {
   evt.preventDefault();
@@ -88,3 +90,14 @@ editButton.addEventListener('click', function() {
 
 closeButton.addEventListener('click', togglePopup);
 formElement.addEventListener('submit', formSubmitHandler);
+
+const deleteButtons = document.querySelectorAll('.mesto-card__trash');
+
+deleteButtons.forEach(button => {
+  button.addEventListener('click', evt => {
+    const eventTarget = evt.target;
+    const closestCard = eventTarget.closest('.mesto-card');
+    closestCard.remove();
+  });
+})
+

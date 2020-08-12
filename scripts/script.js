@@ -2,6 +2,9 @@ const editButton = document.querySelector('.profile__edit-button');
 const closeButton = document.querySelector('.popup__close-button');
 const submitButton = document.querySelector('.popup__submit-button');
 
+const closeButtonImage = document.querySelector('.popup__close-button_type_image');
+
+
 const nameOutput = document.querySelector('.profile__title');
 const jobOutput = document.querySelector('.profile__subtitle');
 
@@ -9,6 +12,8 @@ const nameInput = document.querySelector('#name');
 const jobInput = document.querySelector('#job');
 
 const popup = document.querySelector('.popup');
+const popupEdit = document.querySelector('.popup_profile-edit');
+const popupImageViewer = document.querySelector('.popup_image-viewer');
 
 const formElement = document.querySelector('.popup__form');
 
@@ -45,21 +50,52 @@ const initialCards = [
 ];
 
 // create cards from array initialCards
-initialCards.forEach( element => {
+initialCards.forEach( card => {
   const cardElement = cardTemplate.cloneNode(true);
 
   // use array values for names and images sources
-  cardElement.querySelector('.mesto-card__title').textContent = element.name;
-  cardElement.querySelector('.mesto-card__image').src = element.link;
-  cardElement.querySelector('.mesto-card__image').alt = element.name;
+  cardElement.querySelector('.mesto-card__title').textContent = card.name;
+  cardElement.querySelector('.mesto-card__image').src = card.link;
+  cardElement.querySelector('.mesto-card__image').alt = card.name;
 
+
+  const deleteButton = cardElement.querySelector('.mesto-card__trash');
+
+
+  deleteButton.addEventListener('click', evt => {
+    const eventTarget = evt.target;
+    const closestCard = eventTarget.closest('.mesto-card');
+    closestCard.remove();
+  });
+
+  const likeButton = cardElement.querySelector('.mesto-card__like');
+
+
+  likeButton.addEventListener('click', evt => {
+    const eventTarget = evt.target;
+    eventTarget.classList.toggle('mesto-card__like_active');
+  });
+
+
+  const cardImage = cardElement.querySelector('.mesto-card__image');
+  cardImage.addEventListener('click',() => {
+    popupImageViewer.querySelector('.popup__image').src = card.link;
+    popupImageViewer.querySelector('.popup__caption').textContent = card.name;
+    popupImageViewer.querySelector('.popup__image').alt = card.name;
+    togglePopup(popupImageViewer);
+
+  });
+
+  closeButtonImage.addEventListener('click', function() {
+    popupImageViewer.classList.remove('popup_opened');
+   });
   // add cards to cardsContainer
   cardsContainer.append(cardElement);
 })
 
 // Open/hide popup by adding/removing class
-function togglePopup() {
-  popup.classList.toggle('popup_opened');
+function togglePopup(param) {
+  param.classList.toggle('popup_opened');
 }
 
 // Rewriting input fields with values from profile
@@ -79,32 +115,19 @@ function formSubmitHandler (evt) {
   nameOutput.textContent = nameValue;
   jobOutput.textContent = jobValue;
 
-  togglePopup();
+  togglePopup(popupEdit);
 }
 
 editButton.addEventListener('click', function() {
-  togglePopup();
+  togglePopup(popupEdit);
   fillFields();
 });
 
-closeButton.addEventListener('click', togglePopup);
+
+
+
 formElement.addEventListener('submit', formSubmitHandler);
+closeButton.addEventListener('click', () => {
+  togglePopup(popup);
+});
 
-const deleteButtons = document.querySelectorAll('.mesto-card__trash');
-
-deleteButtons.forEach(button => {
-  button.addEventListener('click', evt => {
-    const eventTarget = evt.target;
-    const closestCard = eventTarget.closest('.mesto-card');
-    closestCard.remove();
-  });
-})
-
-const likeButtons = document.querySelectorAll('.mesto-card__like');
-
-likeButtons.forEach(button => {
-  button.addEventListener('click', evt => {
-    const eventTarget = evt.target;
-    eventTarget.classList.toggle('mesto-card__like_active');
-  });
-})

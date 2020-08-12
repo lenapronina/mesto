@@ -2,7 +2,6 @@ const editButton = document.querySelector('.profile__edit-button');
 const closeButton = document.querySelector('.popup__close-button');
 const submitButton = document.querySelector('.popup__submit-button');
 
-
 const nameOutput = document.querySelector('.profile__title');
 const jobOutput = document.querySelector('.profile__subtitle');
 
@@ -101,3 +100,11 @@ deleteButtons.forEach(button => {
   });
 })
 
+const likeButtons = document.querySelectorAll('.mesto-card__like');
+
+likeButtons.forEach(button => {
+  button.addEventListener('click', evt => {
+    const eventTarget = evt.target;
+    eventTarget.classList.toggle('mesto-card__like_active');
+  });
+})

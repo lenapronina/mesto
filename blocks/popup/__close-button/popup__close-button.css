@@ -11,6 +11,7 @@
   border: none;
   outline: none;
   cursor: pointer;
+  transform: rotate(45deg);
   transition: opacity 0.3s linear;
 }
 

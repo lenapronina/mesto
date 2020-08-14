@@ -35,10 +35,23 @@
         <h2 class="popup__title">Редактировать профиль</h2>
         <button class="popup__close-button"></button>
       </div>
-      <form class="popup__form" name="popup-form" method="POST" action="#">
+      <form class="popup__form" name="form-edit" method="POST" action="#">
         <input class="popup__input" name="name" id="name" placeholder="Введите имя" type="text" required>
         <input class="popup__input" name="job" id="job" placeholder="Введите род занятий" type="text" required>
         <button class="popup__submit-button" type="submit">Сохранить</button>
+      </form>
+    </div>
+  </div>
+  <div class="popup popup_add-card">
+    <div class="popup__container">
+      <div class="popup__header">
+        <h2 class="popup__title">Новое место</h2>
+        <button class="popup__close-button"></button>
+      </div>
+      <form class="popup__form" id="form-addcard" name="form-addcard" method="POST" action="#">
+        <input class="popup__input" name="place-name" id="place-name" placeholder="Название" type="text" required>
+        <input class="popup__input" name="place-image" id="place-image" placeholder="Ссылка на картинку" type="text" required>
+        <button class="popup__submit-button" type="submit">Создать</button>
       </form>
     </div>
   </div>
@@ -51,7 +64,7 @@
       <button class="popup__close-button popup__close-button_type_image"></button>
     </div>
   </div>
-  <template id="mesto-card">
+  <template class="mesto-template">
     <li class="mesto-card">
       <img class="mesto-card__image" src="" alt="">
       <button class="mesto-card__trash"></button>

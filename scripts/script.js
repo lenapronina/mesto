@@ -1,27 +1,4 @@
-const editButton = document.querySelector('.profile__edit-button');
-const addButton = document.querySelector('.profile__add-button');
-
-const submitButton = document.querySelector('.popup__submit-button');
-
-const nameOutput = document.querySelector('.profile__title');
-const jobOutput = document.querySelector('.profile__subtitle');
-
-const nameInput = document.querySelector('#name');
-const jobInput = document.querySelector('#job');
-
-const popup = document.querySelector('.popup');
-const editProfilePopup = document.querySelector('.popup_profile-edit');
-const imageViewerPopup = document.querySelector('.popup_image-viewer');
-const addCardPopup = document.querySelector('.popup_add-card');
-
-const formElement = document.querySelector('.popup__form');
-const formElementAdd = document.querySelector('#form-addcard');
-
-
-const cardTemplate = document.querySelector('.mesto-template').content;
-
-const cardsContainer = document.querySelector('.mesto-cards');
-
+// Array for the initial six cards
 const initialCards = [
   {
       name: 'Архыз',
@@ -49,25 +26,40 @@ const initialCards = [
   }
 ];
 
+const submitButton = document.querySelector('.popup__submit-button');
 
+const nameProfile = document.querySelector('.profile__title');
+const jobProfile = document.querySelector('.profile__subtitle');
+
+const nameInput = document.querySelector('#name');
+const jobInput = document.querySelector('#job');
+
+const popup = document.querySelector('.popup');
+const profilePopup = document.querySelector('.popup_profile-edit');
+const imagePopup = document.querySelector('.popup_image-viewer');
+const newCardPopup = document.querySelector('.popup_add-card');
+
+const profileForm = document.querySelector('#form-edit');
+const cardForm = document.querySelector('#form-addcard');
+
+// Template for card
+const cardTemplate = document.querySelector('.mesto-template').content;
+
+// Container with cards
+const cardsContainer = document.querySelector('.mesto-cards');
+
+// Render card from template
 function addCardtoContainer(placeName, placeLink){
-
+  // Clone the content of the template
   const cardElement = cardTemplate.cloneNode(true);
 
   cardElement.querySelector('.mesto-card__title').textContent = placeName;
   cardElement.querySelector('.mesto-card__image').alt = placeName;
   cardElement.querySelector('.mesto-card__image').src = placeLink;
 
+  // Add cardElement with new values to container
   cardsContainer.prepend(cardElement);
 }
-
-initialCards.forEach(card => {
-  const cardName = card.name;
-  const cardImage = card.link;
-  addCardtoContainer(cardName, cardImage)
-})
-
-formElement.addEventListener('submit', formSubmitHandler);
 
 // Open/hide popup by adding/removing class
 function togglePopup(param) {
@@ -76,50 +68,49 @@ function togglePopup(param) {
 
 // Rewriting input fields with values from profile
 function fillFields(){
-  nameInput.value = nameOutput.textContent;
-  jobInput.value = jobOutput.textContent;
+  nameInput.value = nameProfile.textContent;
+  jobInput.value = jobProfile.textContent;
 }
 
-
-// Rewriting profile data with input fields + hiding popup
-function formSubmitHandler (evt) {
-  evt.preventDefault();
-
-  let nameValue = nameInput.value;
-  let jobValue = jobInput.value;
-
-  nameOutput.textContent = nameValue;
-  jobOutput.textContent = jobValue;
-
-  togglePopup(editProfilePopup);
+// Rewriting profile data with name and job values from profileForm
+function editProfileForm () {
+  const nameValue = nameInput.value;
+  const jobValue = jobInput.value;
+  nameProfile.textContent = nameValue;
+  jobProfile.textContent = jobValue;
 }
 
-
-function addformSubmitHandler (evt) {
-  evt.preventDefault();
-
+// Add new card with image and title values from cardForm
+function addCardForm () {
   const placeValue = document.querySelector('#place-name').value;
   const linkValue = document.querySelector('#place-image').value;
-
   addCardtoContainer(placeValue, linkValue);
-  togglePopup(addCardPopup);
 }
 
-
-
-editButton.addEventListener('click', () => {
-  togglePopup(editProfilePopup);
-  fillFields();
+// Render cards from an array
+initialCards.forEach(card => {
+  const cardName = card.name;
+  const cardImage = card.link;
+  addCardtoContainer(cardName, cardImage);
 });
 
+// Listeners
 
-addButton.addEventListener('click',() => {
-  togglePopup(addCardPopup)
+profileForm.addEventListener('submit', evt =>{
+  evt.preventDefault();
+  editProfileForm();
+  togglePopup(profilePopup);
 });
 
-formElementAdd.addEventListener('submit', addformSubmitHandler);
+cardForm.addEventListener('submit', evt => {
+  evt.preventDefault();
+  addCardForm();
+  togglePopup(newCardPopup);
+  cardForm.reset();
+});
 
 document.addEventListener('click', evt => {
+
   const target = evt.target;
 
   const closestCard = target.closest('.mesto-card');
@@ -127,25 +118,27 @@ document.addEventListener('click', evt => {
 
   if(target.classList.contains('mesto-card__like')){
     target.classList.toggle('mesto-card__like_active');
-  } else if (target.classList.contains('mesto-card__trash')){
+  }
+    else if (target.classList.contains('mesto-card__trash')){
     closestCard.remove();
+
   } else if (target.classList.contains('mesto-card__image')){
-
-
-
 
     let link = closestCard.querySelector('.mesto-card__image');
     let name = closestCard.querySelector('.mesto-card__title');
 
-    imageViewerPopup.querySelector('.popup__image').src = link.src;
-    imageViewerPopup.querySelector('.popup__caption').textContent = name.textContent;
-    imageViewerPopup.querySelector('.popup__image').alt = name.textContent;
+    imagePopup.querySelector('.popup__image').src = link.src;
+    imagePopup.querySelector('.popup__caption').textContent = name.textContent;
+    imagePopup.querySelector('.popup__image').alt = name.textContent;
 
-    togglePopup(imageViewerPopup);
+    togglePopup(imagePopup);
+
+  } else if (target.classList.contains('profile__edit-button')){
+    togglePopup(profilePopup);
+    fillFields();
+  } else if (target.classList.contains('profile__add-button')){
+    togglePopup(newCardPopup);
   } else if (target.classList.contains('popup__close-button')){
-    togglePopup(closestPopup)
+    togglePopup(closestPopup);
   }
-})
-
-
-
+});

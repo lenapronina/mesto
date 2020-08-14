@@ -2,6 +2,7 @@
   margin: 0 auto 30px;
   width: 100%;
   height: 27.5px;
+  padding: 0;
   border:none;
   border-bottom: 1px solid rgba(0, 0, 0, .2);
   font-size: 14px;
@@ -13,7 +14,19 @@
 }
 
 .popup__input::placeholder {
-  font-size: 14px;
-  line-height: 1.2;
   color: #C4C4C4;
+}
+
+
+@media (max-width: 515px) {
+  .popup__input {
+    margin: 0 auto 20px;
+    height: 24px;
+    font-size: 12px;
+    line-height: 1.25;
+  }
+
+  .popup__input:last-of-type {
+    margin-bottom: 36px;
+  }
 }

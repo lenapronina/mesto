@@ -9,6 +9,7 @@
   background-position: center;
   background-repeat: no-repeat;
   border: none;
+  cursor: pointer;
   transition: opacity 0.3s linear;
 }
 

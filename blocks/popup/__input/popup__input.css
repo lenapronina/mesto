@@ -11,3 +11,9 @@
 .popup__input:last-of-type {
   margin-bottom: 48px;
 }
+
+.popup__input::placeholder {
+  font-size: 14px;
+  line-height: 1.2;
+  color: #C4C4C4;
+}

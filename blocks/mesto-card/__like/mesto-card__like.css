@@ -6,7 +6,7 @@
   background-position: center;
   background-repeat: no-repeat;
   border: none;
-  fill: #ff0000;
+  cursor: pointer;
   transition: opacity 0.3s linear;
 }
 

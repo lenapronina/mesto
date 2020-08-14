@@ -1,6 +1,7 @@
 .page {
   margin: 0 auto;
   min-width: 320px;
+  min-height: 100vh;
   background-color: #000000;
   font-family: 'Inter', 'Arial', 'Helvetica', sans-serif;
   -webkit-font-smoothing: antialiased;

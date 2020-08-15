@@ -26,21 +26,21 @@ const initialCards = [
   }
 ];
 
-const submitButton = document.querySelector('.popup__submit-button');
-
 const nameProfile = document.querySelector('.profile__title');
 const jobProfile = document.querySelector('.profile__subtitle');
 
 const nameInput = document.querySelector('#name');
 const jobInput = document.querySelector('#job');
 
-const popup = document.querySelector('.popup');
 const profilePopup = document.querySelector('.popup_profile-edit');
 const imagePopup = document.querySelector('.popup_image-viewer');
 const newCardPopup = document.querySelector('.popup_add-card');
 
 const profileForm = document.querySelector('#form-edit');
 const cardForm = document.querySelector('#form-addcard');
+
+const placeValue = document.querySelector('#place-name');
+const linkValue = document.querySelector('#place-image');
 
 // Template for card
 const cardTemplate = document.querySelector('.mesto-template').content;
@@ -82,9 +82,7 @@ function editProfileForm () {
 
 // Add new card with image and title values from cardForm
 function addCardForm () {
-  const placeValue = document.querySelector('#place-name').value;
-  const linkValue = document.querySelector('#place-image').value;
-  addCardtoContainer(placeValue, linkValue);
+  addCardtoContainer(placeValue.value, linkValue.value);
 }
 
 // Render cards from an array

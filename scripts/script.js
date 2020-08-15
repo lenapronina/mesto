@@ -20,17 +20,14 @@ const cardTemplate = document.querySelector('.mesto-template').content;
 // Container with cards
 const cardsContainer = document.querySelector('.mesto-cards');
 
-// Render card from template
-function addCardtoContainer(placeName, placeLink){
-  // Clone the content of the template
+//Render card from template with  updated values
+function createCard (item){
   const cardElement = cardTemplate.cloneNode(true);
+  cardElement.querySelector('.mesto-card__title').textContent = item.name;
+  cardElement.querySelector('.mesto-card__image').alt = item.name;
+  cardElement.querySelector('.mesto-card__image').src = item.link;
 
-  cardElement.querySelector('.mesto-card__title').textContent = placeName;
-  cardElement.querySelector('.mesto-card__image').alt = placeName;
-  cardElement.querySelector('.mesto-card__image').src = placeLink;
-
-  // Add cardElement with new values to container
-  cardsContainer.prepend(cardElement);
+  return cardElement
 }
 
 // Open/hide popup by adding/removing class
@@ -54,14 +51,19 @@ function editProfileForm () {
 
 // Add new card with image and title values from cardForm
 function addCardForm () {
-  addCardtoContainer(placeValue.value, linkValue.value);
+
+  // Collect new object from form inputs
+  const cardObject = {
+    name: placeValue.value,
+    link: linkValue.value
+  }
+  //Add new card to card list
+  cardsContainer.prepend(createCard(cardObject));
 }
 
-// Render cards from an array
+//Render cards from an array
 initialCards.forEach(card => {
-  const cardName = card.name;
-  const cardImage = card.link;
-  addCardtoContainer(cardName, cardImage);
+  cardsContainer.append(createCard(card));
 });
 
 // Listeners
@@ -104,8 +106,8 @@ document.addEventListener('click', evt => {
     togglePopup(imagePopup);
 
   } else if (target.classList.contains('profile__edit-button')){
-    togglePopup(profilePopup);
     fillFields();
+    togglePopup(profilePopup);
   } else if (target.classList.contains('profile__add-button')){
     togglePopup(newCardPopup);
   } else if (target.classList.contains('popup__close-button')){

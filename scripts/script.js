@@ -96,8 +96,8 @@ document.addEventListener('click', evt => {
 
   } else if (target.classList.contains('mesto-card__image')){
 
-    let link = closestCard.querySelector('.mesto-card__image');
-    let name = closestCard.querySelector('.mesto-card__title');
+    const link = closestCard.querySelector('.mesto-card__image');
+    const name = closestCard.querySelector('.mesto-card__title');
 
     imagePopup.querySelector('.popup__image').src = link.src;
     imagePopup.querySelector('.popup__caption').textContent = name.textContent;

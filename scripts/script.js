@@ -88,6 +88,7 @@ document.addEventListener('click', evt => {
   const closestCard = target.closest('.mesto-card');
   const closestPopup = target.closest('.popup');
 
+
   if(target.classList.contains('mesto-card__like')){
     target.classList.toggle('mesto-card__like_active');
   }
@@ -111,6 +112,8 @@ document.addEventListener('click', evt => {
   } else if (target.classList.contains('profile__add-button')){
     togglePopup(newCardPopup);
   } else if (target.classList.contains('popup__close-button')){
+    togglePopup(closestPopup);
+  } else if (target.classList.contains('popup')){
     togglePopup(closestPopup);
   }
 });

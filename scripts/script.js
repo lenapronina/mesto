@@ -33,6 +33,20 @@ function createCard (item){
 // Open/hide popup by adding/removing class
 function togglePopup(param) {
   param.classList.toggle('popup_opened');
+  popupName = param
+//Add listeners for opened popup to manage with escape key
+  if(param.classList.contains('popup_opened')){
+    document.addEventListener('keydown', closePopupKeyboard);
+  } else {
+    document.removeEventListener('keydown', closePopupKeyboard);
+  }
+}
+
+//Function to close popup with escape key
+function closePopupKeyboard(evt) {
+  if (evt.key  === "Escape") {
+    togglePopup(popupName)
+  };
 }
 
 // Rewriting input fields with values from profile
@@ -108,6 +122,7 @@ document.addEventListener('click', evt => {
 
   } else if (target.classList.contains('profile__edit-button')){
     fillFields();
+
     togglePopup(profilePopup);
   } else if (target.classList.contains('profile__add-button')){
     togglePopup(newCardPopup);
@@ -117,3 +132,5 @@ document.addEventListener('click', evt => {
     togglePopup(closestPopup);
   }
 });
+
+

@@ -1,3 +1,5 @@
 .popup__header {
   display: flex;
+  width: 430px;
+  min-width: 240px;
 }

@@ -1,0 +1,18 @@
+.popup__field{
+  margin: 0 auto;
+  min-height: 62px;
+}
+
+.popup__field:last-of-type {
+  margin: 0 auto 32px;
+}
+
+@media (max-width: 515px) {
+  .popup__field {
+    margin: 0 auto 0px;
+  }
+
+  .popup__field:last-of-type {
+    margin: 0 auto 13px;
+  }
+}

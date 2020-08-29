@@ -35,9 +35,15 @@
         <h2 class="popup__title">Редактировать профиль</h2>
         <button class="popup__close-button"></button>
       </div>
-      <form class="popup__form" id="form-edit" name="form-edit" method="POST" action="#">
-        <input class="popup__input" name="name" id="name" placeholder="Введите имя" type="text" required>
-        <input class="popup__input" name="job" id="job" placeholder="Введите род занятий" type="text" required>
+      <form class="popup__form" id="form-edit" name="form-edit" method="POST" action="#" novalidate>
+        <div class="popup__field">
+          <input class="popup__input" name="name" id="name" placeholder="Введите имя" type="text" minlength="2" maxlength="40" required>
+          <span class="popup__input-error" id="name-error"></span>
+        </div>
+        <div class="popup__field">
+          <input class="popup__input" name="job" id="job" placeholder="Введите род занятий" type="text" minlength="2" maxlength="200" required>
+          <span class="popup__input-error" id="job-error"></span>
+        </div>
         <button class="popup__submit-button" type="submit">Сохранить</button>
       </form>
     </div>
@@ -48,9 +54,15 @@
         <h2 class="popup__title">Новое место</h2>
         <button class="popup__close-button"></button>
       </div>
-      <form class="popup__form" id="form-addcard" name="form-addcard" method="POST" action="#">
-        <input class="popup__input" name="place-name" id="place-name" placeholder="Название" type="text" required>
-        <input class="popup__input" name="place-image" id="place-image" placeholder="Ссылка на картинку" type="text" required>
+      <form class="popup__form" id="form-addcard" name="form-addcard" method="POST" action="#" novalidate>
+        <div class="popup__field">
+          <input class="popup__input" name="place-name" id="place-name" placeholder="Название" type="text" minlength="1" maxlength="30" required>
+          <span class="popup__input-error" id="place-name-error"></span>
+        </div>
+        <div class="popup__field">
+          <input class="popup__input" name="place-image" id="place-image" placeholder="Ссылка на картинку" type="url" required>
+          <span class="popup__input-error" id="place-image-error"></span>
+        </div>
         <button class="popup__submit-button" type="submit">Создать</button>
       </form>
     </div>
@@ -75,6 +87,7 @@
     </li>
   </template>
   <script src="./scripts/initialCards.js"></script>
+  <script src="./scripts/validate.js"></script>
   <script src="./scripts/script.js"></script>
 </body>
 </html>

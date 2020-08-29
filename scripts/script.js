@@ -21,7 +21,7 @@ const cardTemplate = document.querySelector('.mesto-template').content;
 const cardsContainer = document.querySelector('.mesto-cards');
 
 //Render card from template with  updated values
-function createCard (item){
+function createCard(item){
   const cardElement = cardTemplate.cloneNode(true);
   cardElement.querySelector('.mesto-card__title').textContent = item.name;
   cardElement.querySelector('.mesto-card__image').alt = item.name;
@@ -36,8 +36,10 @@ function togglePopup(param) {
   popupName = param
 //Add listeners for opened popup to manage with escape key
   if(param.classList.contains('popup_opened')){
+
     document.addEventListener('keydown', closePopupKeyboard);
   } else {
+    enableValidation(formElements)
     document.removeEventListener('keydown', closePopupKeyboard);
   }
 }
@@ -46,6 +48,8 @@ function togglePopup(param) {
 function closePopupKeyboard(evt) {
   if (evt.key  === "Escape") {
     togglePopup(popupName)
+    resetForm(profileForm, formElements);
+    resetForm(cardForm, formElements);
   };
 }
 
@@ -53,6 +57,7 @@ function closePopupKeyboard(evt) {
 function fillFields(){
   nameInput.value = nameProfile.textContent;
   jobInput.value = jobProfile.textContent;
+  enableValidation(formElements)
 }
 
 // Rewriting profile data with name and job values from profileForm
@@ -78,21 +83,28 @@ function addCardForm () {
 //Render cards from an array
 initialCards.forEach(card => {
   cardsContainer.append(createCard(card));
+
 });
 
+
+
+
+
+
 // Listeners
+enableValidation(formElements)
+
 
 profileForm.addEventListener('submit', evt =>{
-  evt.preventDefault();
   editProfileForm();
   togglePopup(profilePopup);
+  resetForm(profileForm, formElements);
 });
 
 cardForm.addEventListener('submit', evt => {
-  evt.preventDefault();
   addCardForm();
   togglePopup(newCardPopup);
-  cardForm.reset();
+  resetForm(cardForm, formElements);
 });
 
 document.addEventListener('click', evt => {
@@ -101,7 +113,6 @@ document.addEventListener('click', evt => {
 
   const closestCard = target.closest('.mesto-card');
   const closestPopup = target.closest('.popup');
-
 
   if(target.classList.contains('mesto-card__like')){
     target.classList.toggle('mesto-card__like_active');
@@ -124,12 +135,19 @@ document.addEventListener('click', evt => {
     fillFields();
 
     togglePopup(profilePopup);
+
   } else if (target.classList.contains('profile__add-button')){
+
     togglePopup(newCardPopup);
+
   } else if (target.classList.contains('popup__close-button')){
     togglePopup(closestPopup);
+    resetForm(profileForm, formElements);
+    resetForm(cardForm, formElements);
   } else if (target.classList.contains('popup')){
     togglePopup(closestPopup);
+    resetForm(profileForm, formElements);
+    resetForm(cardForm, formElements);
   }
 });
 

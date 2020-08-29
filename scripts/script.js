@@ -8,6 +8,12 @@ const profilePopup = document.querySelector('.popup_profile-edit');
 const imagePopup = document.querySelector('.popup_image-viewer');
 const newCardPopup = document.querySelector('.popup_add-card');
 
+// Select all popups to hide them clicking on overlay
+const popups = document.querySelectorAll('.popup');
+
+// Select all closeButtons to add reset form function and clean inputs
+const popupCloseButtons = document.querySelectorAll('.popup__close-button');
+
 const profileForm = document.querySelector('#form-edit');
 const cardForm = document.querySelector('#form-addcard');
 
@@ -27,37 +33,40 @@ function createCard(item){
   cardElement.querySelector('.mesto-card__image').alt = item.name;
   cardElement.querySelector('.mesto-card__image').src = item.link;
 
-  return cardElement
+  return cardElement;
 }
 
-// Open/hide popup by adding/removing class
-function togglePopup(param) {
-  param.classList.toggle('popup_opened');
-  popupName = param
-//Add listeners for opened popup to manage with escape key
-  if(param.classList.contains('popup_opened')){
+//Add listeners for opened popup to close by escape key
+function closePopupByKeyboard(popupName, formName = '',obj='') {
 
-    document.addEventListener('keydown', closePopupKeyboard);
-  } else {
-    enableValidation(formElements)
-    document.removeEventListener('keydown', closePopupKeyboard);
+  //Remove opened class, reset form settings
+  const cleanPopupByEscape = (evt) =>{
+    if(evt.key ==='Escape' && formName){
+      popupName.classList.remove('popup_opened');
+      resetForm(formName, obj);
+      evt.target.removeEventListener('keydown', cleanPopupByEscape);
+    } else if(evt.key ==='Escape'){
+      popupName.classList.remove('popup_opened');
+      evt.target.removeEventListener('keydown', cleanPopupByEscape);
+    }
+  }
+
+  //Add listener for opened popup
+  if(popupName.classList.contains('popup_opened')){
+    document.addEventListener('keydown', cleanPopupByEscape);
   }
 }
 
-//Function to close popup with escape key
-function closePopupKeyboard(evt) {
-  if (evt.key  === "Escape") {
-    togglePopup(popupName)
-    resetForm(profileForm, formElements);
-    resetForm(cardForm, formElements);
-  };
+//Open/hide popup by adding/removing class
+function togglePopup(param) {
+  param.classList.toggle('popup_opened');
 }
 
 // Rewriting input fields with values from profile
 function fillFields(){
   nameInput.value = nameProfile.textContent;
   jobInput.value = jobProfile.textContent;
-  enableValidation(formElements)
+  enableValidation(formElements);
 }
 
 // Rewriting profile data with name and job values from profileForm
@@ -80,44 +89,106 @@ function addCardForm () {
   cardsContainer.prepend(createCard(cardObject));
 }
 
-//Render cards from an array
+
+// Reset form and error messages
+function resetForm (form, obj){
+
+  // Find inputs and errors for all forms
+  const inputs = form.querySelectorAll(`${obj.inputSelector}`);
+  const errors = form.querySelectorAll(`.${obj.errorClass}`);
+
+  // Remove error class and clean spans
+  inputs.forEach(input => {
+    input.classList.remove(`${obj.inputErrorClass}`);
+  })
+  errors.forEach(error => {
+    error.classList.remove(`${obj.errorClass}`);
+    error.textContent = '';
+  })
+
+  if (form.id === obj.formEditClass){
+    // Reset profileForm
+    form.reset(profileForm, formElements);
+  } else if (form.id ===  obj.formAddCardClass){
+    // Reset profileForm
+    form.reset(cardForm, formElements);
+  } else {
+    return
+  }
+}
+
+// Render cards from an array
 initialCards.forEach(card => {
   cardsContainer.append(createCard(card));
-
 });
 
 
 
-
-
-
-// Listeners
-enableValidation(formElements)
-
-
 profileForm.addEventListener('submit', evt =>{
+  // Update profile inputs
   editProfileForm();
+  // Toggle profilePopup
   togglePopup(profilePopup);
+  // Reset form settings
   resetForm(profileForm, formElements);
 });
 
 cardForm.addEventListener('submit', evt => {
+  // Add card to container
   addCardForm();
+  // Toggle newCardPopup
   togglePopup(newCardPopup);
+  // Reset form settings
   resetForm(cardForm, formElements);
 });
+
+
+popups.forEach(popup => {
+  // Add click listener for each popup
+  popup.addEventListener('click', evt => {
+
+    const closestPopup = evt.target.closest('.popup');
+    const closestForm = closestPopup.querySelector('.popup__form');
+
+    // For profilePopup and newCardPopup toggle class and reset form
+    if(evt.target == evt.currentTarget && closestPopup && closestForm){
+      togglePopup(closestPopup);
+      resetForm(closestForm, formElements);
+    // For imagePopup toggle class
+    } else if (evt.target == evt.currentTarget && closestPopup){
+      togglePopup(closestPopup);
+    }
+  });
+});
+
+
+popupCloseButtons.forEach(closeButton => {
+  closeButton.addEventListener('click', evt => {
+    const closestPopup = evt.target.closest('.popup');
+    const closestForm = closestPopup.querySelector('.popup__form');
+
+    // For profilePopup and newCardPopup toggle class and reset form
+    if (closestPopup && closestForm){
+      togglePopup(closestPopup);
+      resetForm(closestForm, formElements);
+    // For imagePopup toggle class
+    } else {
+      togglePopup(closestPopup);
+    }
+  });
+});
+
+
 
 document.addEventListener('click', evt => {
 
   const target = evt.target;
-
   const closestCard = target.closest('.mesto-card');
-  const closestPopup = target.closest('.popup');
 
   if(target.classList.contains('mesto-card__like')){
     target.classList.toggle('mesto-card__like_active');
-  }
-    else if (target.classList.contains('mesto-card__trash')){
+
+  } else if (target.classList.contains('mesto-card__trash')){
     closestCard.remove();
 
   } else if (target.classList.contains('mesto-card__image')){
@@ -130,25 +201,23 @@ document.addEventListener('click', evt => {
     imagePopup.querySelector('.popup__image').alt = name.textContent;
 
     togglePopup(imagePopup);
-
+    // Add hiding function to opened popup
+    closePopupByKeyboard(imagePopup);
   } else if (target.classList.contains('profile__edit-button')){
     fillFields();
 
+    // Validate form before opening popup
+    enableValidation(formElements)
     togglePopup(profilePopup);
 
+    // Add hiding function to opened popup
+    closePopupByKeyboard(profilePopup, profileForm, formElements)
   } else if (target.classList.contains('profile__add-button')){
 
+    // Validate form before opening popup
+    enableValidation(formElements)
     togglePopup(newCardPopup);
-
-  } else if (target.classList.contains('popup__close-button')){
-    togglePopup(closestPopup);
-    resetForm(profileForm, formElements);
-    resetForm(cardForm, formElements);
-  } else if (target.classList.contains('popup')){
-    togglePopup(closestPopup);
-    resetForm(profileForm, formElements);
-    resetForm(cardForm, formElements);
+    // Add hiding function to opened popup
+    closePopupByKeyboard(newCardPopup, cardForm, formElements);
   }
 });
-
-

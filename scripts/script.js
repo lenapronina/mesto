@@ -42,11 +42,11 @@ function closePopupByKeyboard(popupName, formName = '',obj='') {
   //Remove opened class, reset form settings
   const cleanPopupByEscape = (evt) =>{
     if(evt.key ==='Escape' && formName){
-      popupName.classList.remove('popup_opened');
+      closePopup(popupName);
       resetForm(formName, obj);
       evt.target.removeEventListener('keydown', cleanPopupByEscape);
     } else if(evt.key ==='Escape'){
-      popupName.classList.remove('popup_opened');
+      closePopup(popupName);
       evt.target.removeEventListener('keydown', cleanPopupByEscape);
     }
   }
@@ -57,9 +57,14 @@ function closePopupByKeyboard(popupName, formName = '',obj='') {
   }
 }
 
-//Open/hide popup by adding/removing class
-function togglePopup(param) {
-  param.classList.toggle('popup_opened');
+//Open popup by adding class
+function openPopup(param) {
+  param.classList.add('popup_opened');
+}
+
+//Hide popup by removing class
+function closePopup(param) {
+  param.classList.remove('popup_opened');
 }
 
 // Rewriting input fields with values from profile
@@ -128,7 +133,7 @@ profileForm.addEventListener('submit', evt =>{
   // Update profile inputs
   editProfileForm();
   // Toggle profilePopup
-  togglePopup(profilePopup);
+  closePopup(profilePopup);
   // Reset form settings
   resetForm(profileForm, formElements);
 });
@@ -137,7 +142,7 @@ cardForm.addEventListener('submit', evt => {
   // Add card to container
   addCardForm();
   // Toggle newCardPopup
-  togglePopup(newCardPopup);
+  closePopup(newCardPopup);
   // Reset form settings
   resetForm(cardForm, formElements);
 });
@@ -152,11 +157,11 @@ popups.forEach(popup => {
 
     // For profilePopup and newCardPopup toggle class and reset form
     if(evt.target == evt.currentTarget && closestPopup && closestForm){
-      togglePopup(closestPopup);
+      closePopup(closestPopup);
       resetForm(closestForm, formElements);
     // For imagePopup toggle class
     } else if (evt.target == evt.currentTarget && closestPopup){
-      togglePopup(closestPopup);
+      closePopup(closestPopup);
     }
   });
 });
@@ -169,11 +174,11 @@ popupCloseButtons.forEach(closeButton => {
 
     // For profilePopup and newCardPopup toggle class and reset form
     if (closestPopup && closestForm){
-      togglePopup(closestPopup);
+      closePopup(closestPopup);
       resetForm(closestForm, formElements);
     // For imagePopup toggle class
     } else {
-      togglePopup(closestPopup);
+      closePopup(closestPopup);
     }
   });
 });
@@ -200,7 +205,7 @@ document.addEventListener('click', evt => {
     imagePopup.querySelector('.popup__caption').textContent = name.textContent;
     imagePopup.querySelector('.popup__image').alt = name.textContent;
 
-    togglePopup(imagePopup);
+    openPopup(imagePopup);
     // Add hiding function to opened popup
     closePopupByKeyboard(imagePopup);
   } else if (target.classList.contains('profile__edit-button')){
@@ -208,7 +213,7 @@ document.addEventListener('click', evt => {
 
     // Validate form before opening popup
     enableValidation(formElements)
-    togglePopup(profilePopup);
+    openPopup(profilePopup);
 
     // Add hiding function to opened popup
     closePopupByKeyboard(profilePopup, profileForm, formElements)
@@ -216,7 +221,7 @@ document.addEventListener('click', evt => {
 
     // Validate form before opening popup
     enableValidation(formElements)
-    togglePopup(newCardPopup);
+    openPopup(newCardPopup);
     // Add hiding function to opened popup
     closePopupByKeyboard(newCardPopup, cardForm, formElements);
   }

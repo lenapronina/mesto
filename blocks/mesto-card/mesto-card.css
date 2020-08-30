@@ -1,8 +1,20 @@
 .mesto-card {
   position: relative;
-  max-width: 282px;
+  width: 282px;
   justify-self: center;
   background-color: #ffffff;
   border-radius: 10px;
   overflow: hidden;
+}
+
+@media (max-width: 831px) {
+  .mesto-card {
+   width: 250px;
+  }
+}
+
+@media (max-width: 759px) {
+  .mesto-card {
+    width: 282px;
+  }
 }

@@ -19,7 +19,7 @@
 
 @media (max-width: 831px) {
   .mesto-cards {
-    column-gap: 10px;
+    column-gap: 5px;
     grid-template-columns: repeat(auto-fit, 250px);
   }
 }

@@ -11,7 +11,7 @@ const newCardPopup = document.querySelector('.popup_add-card');
 // Select all popups to hide them clicking on overlay
 const popups = document.querySelectorAll('.popup');
 
-// Select all closeButtons to add reset form function and clean inputs
+// Select all closeButtons to hide popups
 const popupCloseButtons = document.querySelectorAll('.popup__close-button');
 
 const profileForm = document.querySelector('#form-edit');
@@ -37,15 +37,11 @@ function createCard(item){
 }
 
 //Add listeners for opened popup to close by escape key
-function closePopupByKeyboard(popupName, formName = '',obj='') {
+function closePopupByKeyboard(popupName) {
 
-  //Remove opened class, reset form settings
+  //Remove opened class
   const cleanPopupByEscape = (evt) =>{
-    if(evt.key ==='Escape' && formName){
-      closePopup(popupName);
-      resetForm(formName, obj);
-      evt.target.removeEventListener('keydown', cleanPopupByEscape);
-    } else if(evt.key ==='Escape'){
+    if(evt.key ==='Escape'){
       closePopup(popupName);
       evt.target.removeEventListener('keydown', cleanPopupByEscape);
     }
@@ -95,38 +91,10 @@ function addCardForm () {
 }
 
 
-// Reset form and error messages
-function resetForm (form, obj){
-
-  // Find inputs and errors for all forms
-  const inputs = form.querySelectorAll(`${obj.inputSelector}`);
-  const errors = form.querySelectorAll(`.${obj.errorClass}`);
-
-  // Remove error class and clean spans
-  inputs.forEach(input => {
-    input.classList.remove(`${obj.inputErrorClass}`);
-  })
-  errors.forEach(error => {
-    error.classList.remove(`${obj.errorClass}`);
-    error.textContent = '';
-  })
-
-  if (form.id === obj.formEditClass){
-    // Reset profileForm
-    form.reset(profileForm, formElements);
-  } else if (form.id ===  obj.formAddCardClass){
-    // Reset profileForm
-    form.reset(cardForm, formElements);
-  } else {
-    return
-  }
-}
-
 // Render cards from an array
 initialCards.forEach(card => {
   cardsContainer.append(createCard(card));
 });
-
 
 
 profileForm.addEventListener('submit', evt =>{
@@ -134,8 +102,6 @@ profileForm.addEventListener('submit', evt =>{
   editProfileForm();
   // Toggle profilePopup
   closePopup(profilePopup);
-  // Reset form settings
-  resetForm(profileForm, formElements);
 });
 
 cardForm.addEventListener('submit', evt => {
@@ -143,24 +109,14 @@ cardForm.addEventListener('submit', evt => {
   addCardForm();
   // Toggle newCardPopup
   closePopup(newCardPopup);
-  // Reset form settings
-  resetForm(cardForm, formElements);
 });
 
 
 popups.forEach(popup => {
   // Add click listener for each popup
   popup.addEventListener('click', evt => {
-
     const closestPopup = evt.target.closest('.popup');
-    const closestForm = closestPopup.querySelector('.popup__form');
-
-    // For profilePopup and newCardPopup toggle class and reset form
-    if(evt.target == evt.currentTarget && closestPopup && closestForm){
-      closePopup(closestPopup);
-      resetForm(closestForm, formElements);
-    // For imagePopup toggle class
-    } else if (evt.target == evt.currentTarget && closestPopup){
+    if(evt.target == evt.currentTarget){
       closePopup(closestPopup);
     }
   });
@@ -170,19 +126,9 @@ popups.forEach(popup => {
 popupCloseButtons.forEach(closeButton => {
   closeButton.addEventListener('click', evt => {
     const closestPopup = evt.target.closest('.popup');
-    const closestForm = closestPopup.querySelector('.popup__form');
-
-    // For profilePopup and newCardPopup toggle class and reset form
-    if (closestPopup && closestForm){
-      closePopup(closestPopup);
-      resetForm(closestForm, formElements);
-    // For imagePopup toggle class
-    } else {
-      closePopup(closestPopup);
-    }
+    closePopup(closestPopup);
   });
 });
-
 
 
 document.addEventListener('click', evt => {
@@ -212,17 +158,32 @@ document.addEventListener('click', evt => {
     fillFields();
 
     // Validate form before opening popup
-    enableValidation(formElements)
+    enableValidation(formElements);
+
+    const profileInputs = [nameInput, jobInput];
+    //Clean inputs from errors
+    for (item of profileInputs) {
+      hideInputError (profileForm, item, formElements);
+    }
+
     openPopup(profilePopup);
 
     // Add hiding function to opened popup
-    closePopupByKeyboard(profilePopup, profileForm, formElements)
+    closePopupByKeyboard(profilePopup);
   } else if (target.classList.contains('profile__add-button')){
 
+    // Reset form inputs
+    cardForm.reset()
     // Validate form before opening popup
-    enableValidation(formElements)
+    enableValidation(formElements);
+    const cardInputs = [placeValue, linkValue];
+
+    //Clean inputs from errors
+    for (item of cardInputs) {
+      hideInputError (cardForm, item, formElements);
+    }
     openPopup(newCardPopup);
     // Add hiding function to opened popup
-    closePopupByKeyboard(newCardPopup, cardForm, formElements);
+    closePopupByKeyboard(newCardPopup);
   }
 });

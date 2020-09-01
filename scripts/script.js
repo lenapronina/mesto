@@ -33,6 +33,36 @@ function createCard(item){
   cardElement.querySelector('.mesto-card__image').alt = item.name;
   cardElement.querySelector('.mesto-card__image').src = item.link;
 
+  // Like card
+  const likeButton = cardElement.querySelector('.mesto-card__like');
+  likeButton.addEventListener('click', () => {
+    likeButton.classList.toggle('mesto-card__like_active');
+  })
+
+  // Remove card clicking on trash button
+  const trashButton = cardElement.querySelector('.mesto-card__trash');
+  trashButton.addEventListener('click', (evt) => {
+    const closestCard = evt.target.closest('.mesto-card');
+    closestCard.remove();
+  })
+
+
+  const imagePopupButton = cardElement.querySelector('.mesto-card__image');
+  // Create listener for card image
+  imagePopupButton.addEventListener('click', (evt) => {
+    const closestCard = evt.target.closest('.mesto-card');
+    const link = closestCard.querySelector('.mesto-card__image');
+    const name = closestCard.querySelector('.mesto-card__title');
+
+    imagePopup.querySelector('.popup__image').src = link.src;
+    imagePopup.querySelector('.popup__caption').textContent = name.textContent;
+    imagePopup.querySelector('.popup__image').alt = name.textContent;
+
+    openPopup(imagePopup);
+    // Add hiding function to opened popup
+    closePopupByKeyboard(imagePopup);
+  })
+
   return cardElement;
 }
 
@@ -136,25 +166,7 @@ document.addEventListener('click', evt => {
   const target = evt.target;
   const closestCard = target.closest('.mesto-card');
 
-  if(target.classList.contains('mesto-card__like')){
-    target.classList.toggle('mesto-card__like_active');
-
-  } else if (target.classList.contains('mesto-card__trash')){
-    closestCard.remove();
-
-  } else if (target.classList.contains('mesto-card__image')){
-
-    const link = closestCard.querySelector('.mesto-card__image');
-    const name = closestCard.querySelector('.mesto-card__title');
-
-    imagePopup.querySelector('.popup__image').src = link.src;
-    imagePopup.querySelector('.popup__caption').textContent = name.textContent;
-    imagePopup.querySelector('.popup__image').alt = name.textContent;
-
-    openPopup(imagePopup);
-    // Add hiding function to opened popup
-    closePopupByKeyboard(imagePopup);
-  } else if (target.classList.contains('profile__edit-button')){
+  if (target.classList.contains('profile__edit-button')){
     fillFields();
 
     // Validate form before opening popup

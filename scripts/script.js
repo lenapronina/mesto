@@ -8,6 +8,9 @@ const profilePopup = document.querySelector('.popup_profile-edit');
 const imagePopup = document.querySelector('.popup_image-viewer');
 const newCardPopup = document.querySelector('.popup_add-card');
 
+const profileEditButton = document.querySelector('.profile__edit-button');
+const newCardButton = document.querySelector('.profile__add-button');
+
 // Select all popups to hide them clicking on overlay
 const popups = document.querySelectorAll('.popup');
 
@@ -45,7 +48,6 @@ function createCard(item){
     const closestCard = evt.target.closest('.mesto-card');
     closestCard.remove();
   })
-
 
   const imagePopupButton = cardElement.querySelector('.mesto-card__image');
   // Create listener for card image
@@ -161,41 +163,35 @@ popupCloseButtons.forEach(closeButton => {
 });
 
 
-document.addEventListener('click', evt => {
+profileEditButton.addEventListener('click', () => {
+  fillFields();
+  // Validate form before opening popup
+  enableValidation(formElements);
 
-  const target = evt.target;
-  const closestCard = target.closest('.mesto-card');
-
-  if (target.classList.contains('profile__edit-button')){
-    fillFields();
-
-    // Validate form before opening popup
-    enableValidation(formElements);
-
-    const profileInputs = [nameInput, jobInput];
-    //Clean inputs from errors
-    for (item of profileInputs) {
-      hideInputError (profileForm, item, formElements);
-    }
-
-    openPopup(profilePopup);
-
-    // Add hiding function to opened popup
-    closePopupByKeyboard(profilePopup);
-  } else if (target.classList.contains('profile__add-button')){
-
-    // Reset form inputs
-    cardForm.reset()
-    // Validate form before opening popup
-    enableValidation(formElements);
-    const cardInputs = [placeValue, linkValue];
-
-    //Clean inputs from errors
-    for (item of cardInputs) {
-      hideInputError (cardForm, item, formElements);
-    }
-    openPopup(newCardPopup);
-    // Add hiding function to opened popup
-    closePopupByKeyboard(newCardPopup);
+  const profileInputs = [nameInput, jobInput];
+  //Clean inputs from errors
+  for (item of profileInputs) {
+    hideInputError (profileForm, item, formElements);
   }
+
+  openPopup(profilePopup);
+  // Add hiding function to opened popup
+  closePopupByKeyboard(profilePopup);
+});
+
+
+newCardButton.addEventListener('click',() => {
+  // Reset form inputs
+  cardForm.reset()
+  // Validate form before opening popup
+  enableValidation(formElements);
+  const cardInputs = [placeValue, linkValue];
+
+  //Clean inputs from errors
+  for (item of cardInputs) {
+    hideInputError (cardForm, item, formElements);
+  }
+  openPopup(newCardPopup);
+  // Add hiding function to opened popup
+  closePopupByKeyboard(newCardPopup);
 });

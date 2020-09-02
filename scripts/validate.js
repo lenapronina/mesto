@@ -90,3 +90,5 @@ function enableValidation(obj){
     setEventListeners(form, obj);
   });
 }
+
+enableValidation(formElements);

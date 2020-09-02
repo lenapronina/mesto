@@ -165,8 +165,6 @@ popupCloseButtons.forEach(closeButton => {
 
 profileEditButton.addEventListener('click', () => {
   fillFields();
-  // Validate form before opening popup
-  enableValidation(formElements);
 
   const profileInputs = [nameInput, jobInput];
   //Clean inputs from errors
@@ -183,10 +181,7 @@ profileEditButton.addEventListener('click', () => {
 newCardButton.addEventListener('click',() => {
   // Reset form inputs
   cardForm.reset()
-  // Validate form before opening popup
-  enableValidation(formElements);
   const cardInputs = [placeValue, linkValue];
-
   //Clean inputs from errors
   for (item of cardInputs) {
     hideInputError (cardForm, item, formElements);

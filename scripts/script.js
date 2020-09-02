@@ -99,7 +99,6 @@ function closePopup(param) {
 function fillFields(){
   nameInput.value = nameProfile.textContent;
   jobInput.value = jobProfile.textContent;
-  enableValidation(formElements);
 }
 
 // Rewriting profile data with name and job values from profileForm
@@ -165,8 +164,6 @@ popupCloseButtons.forEach(closeButton => {
 
 profileEditButton.addEventListener('click', () => {
   fillFields();
-  // Validate form before opening popup
-  enableValidation(formElements);
 
   const profileInputs = [nameInput, jobInput];
   //Clean inputs from errors
@@ -183,10 +180,7 @@ profileEditButton.addEventListener('click', () => {
 newCardButton.addEventListener('click',() => {
   // Reset form inputs
   cardForm.reset()
-  // Validate form before opening popup
-  enableValidation(formElements);
   const cardInputs = [placeValue, linkValue];
-
   //Clean inputs from errors
   for (item of cardInputs) {
     hideInputError (cardForm, item, formElements);

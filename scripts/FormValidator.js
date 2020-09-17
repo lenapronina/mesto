@@ -35,40 +35,40 @@ class FormValidator {
     }
   }
 
-  _hasInvalidInput(inputList, inputElement){
-    return inputList.some((inputElement) => {
+  _hasInvalidInput(inputElement){
+    return this._inputList.some((inputElement) => {
       return !inputElement.validity.valid;
     })
   }
 
   // Change submitButton style by adding/removing class
-  _toggleButtonState (inputList, buttonElement) {
+  _toggleButtonState() {
 
-    if (this._hasInvalidInput(inputList)) {
+    if (this._hasInvalidInput()) {
       //If some of inpupts are invalid make button disabled
-      buttonElement.classList.add(this._inactiveButtonClass);
-      buttonElement.setAttribute('disabled', true);
+      this._buttonElement.classList.add(this._inactiveButtonClass);
+      this._buttonElement.setAttribute('disabled', true);
     } else {
       // Make active if all are valid
-      buttonElement.classList.remove(this._inactiveButtonClass);
-      buttonElement.removeAttribute('disabled', true);
+      this._buttonElement.classList.remove(this._inactiveButtonClass);
+      this._buttonElement.removeAttribute('disabled', true);
     }
   };
 
   _setEventListeners(){
 
-    const inputList = Array.from(this._formElement.querySelectorAll(this._inputSelector));
-    const buttonElement = this._formElement.querySelector(this._submitButtonSelector);
+    this._inputList = Array.from(this._formElement.querySelectorAll(this._inputSelector));
+    this._buttonElement = this._formElement.querySelector(this._submitButtonSelector);
 
     // Make submit button disabled for first download
-    this._toggleButtonState(inputList, buttonElement);
+    this._toggleButtonState();
 
-    inputList.forEach((inputElement) => {
+    this._inputList.forEach((inputElement) => {
       this._hideInputError (inputElement)
       inputElement.addEventListener('input', () => {
         // Check Validity for all inputs
         this._isValid(inputElement)
-        this._toggleButtonState(inputList, buttonElement);
+        this._toggleButtonState();
       });
     });
   }
@@ -83,5 +83,4 @@ class FormValidator {
   }
 }
 
-
-
+export {FormValidator};

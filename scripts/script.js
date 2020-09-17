@@ -1,17 +1,18 @@
+import initialCards from './initialCards.js';
+import { Card } from './Card.js';
+import { FormValidator } from './FormValidator.js';
+
 const formElements = {
   formSelector: '.popup__form',
   inputSelector: '.popup__input',
   submitButtonSelector: '.popup__submit-button',
   inactiveButtonClass: 'popup__submit-button_disabled',
   inputErrorClass: 'popup__input_type_error',
-  errorClass: 'popup__input-error_active',
-  formEditClass: 'form-edit',
-  formAddCardClass: 'form-addcard'
+  errorClass: 'popup__input-error_active'
 };
 
 // Container for cards
 const cardsContainer = document.querySelector('.mesto-cards');
-
 
 const nameProfile = document.querySelector('.profile__title');
 const jobProfile = document.querySelector('.profile__subtitle');
@@ -21,6 +22,7 @@ const jobInput = document.querySelector('#job');
 
 const profilePopup = document.querySelector('.popup_profile-edit');
 const newCardPopup = document.querySelector('.popup_add-card');
+const imagePopup = document.querySelector('.popup_image-viewer');
 
 const profileEditButton = document.querySelector('.profile__edit-button');
 const newCardButton = document.querySelector('.profile__add-button');
@@ -70,6 +72,13 @@ function fillFields(){
   jobInput.value = jobProfile.textContent;
 }
 
+// Fill imagePopup with data from card
+function fillImagePopup(item){
+  imagePopup.querySelector('.popup__image').src = item.closest('.mesto-card').querySelector('.mesto-card__image').src;
+  imagePopup.querySelector('.popup__caption').textContent = item.closest('.mesto-card').querySelector('.mesto-card__title').textContent;
+  imagePopup.querySelector('.popup__image').alt = item.closest('.mesto-card').querySelector('.mesto-card__title').textContent;
+}
+
 // Rewriting profile data with name and job values from profileForm
 function editProfileForm () {
   const nameValue = nameInput.value;
@@ -88,6 +97,13 @@ function addCardForm () {
   // Сreate new card instance
   const card = new Card(cardProperties, '.mesto-template');
   const cardElement = card.render();
+
+  //Add listener for showing imagePopup
+  cardElement.querySelector('.mesto-card__image').addEventListener('click', (evt)=>{
+    fillImagePopup(evt.target);
+    openPopup(imagePopup);
+    closePopupByKeyboard(imagePopup);
+  })
   // Add card to container
   cardsContainer.prepend(cardElement);
 }
@@ -98,6 +114,13 @@ initialCards.forEach((item) => {
   const card = new Card(item, '.mesto-template');
   // Render card
   const cardElement = card.render();
+
+  //Add listener for showing imagePopup
+  cardElement.querySelector('.mesto-card__image').addEventListener('click', (evt)=>{
+    fillImagePopup(evt.target);
+    openPopup(imagePopup);
+    closePopupByKeyboard(imagePopup);
+  })
    // Add card to container
   cardsContainer.append(cardElement);
 });
@@ -158,3 +181,4 @@ newCardButton.addEventListener('click',() => {
   openPopup(newCardPopup);
   closePopupByKeyboard(newCardPopup);
 });
+

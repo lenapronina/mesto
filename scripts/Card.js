@@ -17,17 +17,6 @@ class Card {
     return cardElement;
   }
 
-  // Method for showing imagePopup for each card
-  _handlePopup(){
-    const imagePopup = document.querySelector('.popup_image-viewer');
-
-    imagePopup.querySelector('.popup__image').src = this._image;
-    imagePopup.querySelector('.popup__caption').textContent = this._title;
-    imagePopup.querySelector('.popup__image').alt = this._title;
-    openPopup(imagePopup);
-    closePopupByKeyboard(imagePopup);
-  }
-
   // Method for making likeButton active
   _handleLikeClick(likeButton) {
     likeButton.classList.toggle('mesto-card__like_active');
@@ -45,9 +34,6 @@ class Card {
     this._element.querySelector('.mesto-card__trash').addEventListener('click', (evt) => {
       this._handleDeleteClick(evt.target);
     });
-    this._element.querySelector('.mesto-card__image').addEventListener('click', (evt) => {
-      this._handlePopup();
-    });
   }
 
   render() {
@@ -63,5 +49,4 @@ class Card {
   }
 }
 
-
-
+export {Card};

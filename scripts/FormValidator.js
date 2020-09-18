@@ -29,10 +29,26 @@ class FormValidator {
   // Check Validity for one input
   _isValid (inputElement){
     if (!inputElement.validity.valid) {
-      this._showInputError(inputElement, inputElement.validationMessage, this._obj);
+      this._showInputError(inputElement, inputElement.validationMessage);
     } else {
-      this._hideInputError(inputElement, this._obj);
+      this._hideInputError(inputElement);
     }
+  }
+
+  _setEventListeners(){
+    this._inputList = Array.from(this._formElement.querySelectorAll(this._inputSelector));
+    this._buttonElement = this._formElement.querySelector(this._submitButtonSelector);
+
+    // Make submit button disabled for first download
+    this._toggleButtonState();
+
+    this._inputList.forEach((inputElement) => {
+      inputElement.addEventListener('input', () => {
+        // Check Validity for all inputs
+        this._isValid(inputElement);
+        this._toggleButtonState();
+      });
+    });
   }
 
   _hasInvalidInput(){
@@ -44,34 +60,17 @@ class FormValidator {
   // Change submitButton style by adding/removing class
   _toggleButtonState() {
 
-    if (this._hasInvalidInput()) {
-      //If some of inpupts are invalid make button disabled
-      this._buttonElement.classList.add(this._inactiveButtonClass);
-      this._buttonElement.setAttribute('disabled', true);
-    } else {
+    if (!this._hasInvalidInput()) {
       // Make active if all are valid
       this._buttonElement.classList.remove(this._inactiveButtonClass);
       this._buttonElement.removeAttribute('disabled', true);
+    } else {
+
+      //If some of inpupts are invalid make button disabled
+      this._buttonElement.classList.add(this._inactiveButtonClass);
+      this._buttonElement.setAttribute('disabled', true);
     }
   };
-
-  _setEventListeners(){
-
-    this._inputList = Array.from(this._formElement.querySelectorAll(this._inputSelector));
-    this._buttonElement = this._formElement.querySelector(this._submitButtonSelector);
-
-    // Make submit button disabled for first download
-    this._toggleButtonState();
-
-    this._inputList.forEach((inputElement) => {
-      this._hideInputError (inputElement)
-      inputElement.addEventListener('input', () => {
-        // Check Validity for all inputs
-        this._isValid(inputElement)
-        this._toggleButtonState();
-      });
-    });
-  }
 
   enableValidation(){
     this._formElement.addEventListener('submit', (evt) => {

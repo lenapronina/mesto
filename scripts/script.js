@@ -24,6 +24,9 @@ const profilePopup = document.querySelector('.popup_profile-edit');
 const newCardPopup = document.querySelector('.popup_add-card');
 const imagePopup = document.querySelector('.popup_image-viewer');
 
+const imagePopupPicture = imagePopup.querySelector('.popup__image');
+const imagePopupCaption = imagePopup.querySelector('.popup__caption');
+
 const profileEditButton = document.querySelector('.profile__edit-button');
 const newCardButton = document.querySelector('.profile__add-button');
 
@@ -39,14 +42,16 @@ const cardForm = document.querySelector('#form-addcard');
 const placeValue = document.querySelector('#place-name');
 const linkValue = document.querySelector('#place-image');
 
+
+
 //Open popup by adding class
-function openPopup(param) {
-  param.classList.add('popup_opened');
+function openPopup(popupName) {
+  popupName.classList.add('popup_opened');
 }
 
 //Hide popup by removing class
-function closePopup(param) {
-  param.classList.remove('popup_opened');
+function closePopup(popupName) {
+  popupName.classList.remove('popup_opened');
 }
 
 //Add listeners for opened popup to close by escape key
@@ -56,10 +61,9 @@ function closePopupByKeyboard(popupName) {
   const cleanPopupByEscape = (evt) =>{
     if(evt.key ==='Escape'){
       closePopup(popupName);
-      evt.target.removeEventListener('keydown', cleanPopupByEscape);
+      document.removeEventListener('keydown', cleanPopupByEscape);
     }
   }
-
   //Add listener for opened popup
   if(popupName.classList.contains('popup_opened')){
     document.addEventListener('keydown', cleanPopupByEscape);
@@ -67,17 +71,30 @@ function closePopupByKeyboard(popupName) {
 }
 
 // Rewriting input fields with values from profile
-function fillFields(){
+function fillFields() {
   nameInput.value = nameProfile.textContent;
   jobInput.value = jobProfile.textContent;
 }
 
 // Fill imagePopup with data from card
-function fillImagePopup(item){
-  imagePopup.querySelector('.popup__image').src = item.closest('.mesto-card').querySelector('.mesto-card__image').src;
-  imagePopup.querySelector('.popup__caption').textContent = item.closest('.mesto-card').querySelector('.mesto-card__title').textContent;
-  imagePopup.querySelector('.popup__image').alt = item.closest('.mesto-card').querySelector('.mesto-card__title').textContent;
+function fillImagePopup(cardImage, cardTitle){
+  imagePopupPicture.src = cardImage.src;
+  imagePopupCaption.textContent = cardTitle.textContent;
+  imagePopupPicture.alt = cardTitle.textContent;
 }
+
+function cardImageListener(card){
+
+  const cardImage = card.querySelector('.mesto-card__image');
+  const cardTitle = card.querySelector('.mesto-card__title');
+
+  cardImage.addEventListener('click', (evt)=>{
+    fillImagePopup(cardImage, cardTitle);
+    openPopup(imagePopup);
+    closePopupByKeyboard(imagePopup);
+  })
+}
+
 
 // Rewriting profile data with name and job values from profileForm
 function editProfileForm () {
@@ -86,6 +103,7 @@ function editProfileForm () {
   nameProfile.textContent = nameValue;
   jobProfile.textContent = jobValue;
 }
+
 
 // Add new card with image and title values from cardForm
 function addCardForm () {
@@ -99,14 +117,20 @@ function addCardForm () {
   const cardElement = card.createCard();
 
   //Add listener for showing imagePopup
-  cardElement.querySelector('.mesto-card__image').addEventListener('click', (evt)=>{
-    fillImagePopup(evt.target);
-    openPopup(imagePopup);
-    closePopupByKeyboard(imagePopup);
-  })
+  cardImageListener(cardElement)
   // Add card to container
   cardsContainer.prepend(cardElement);
 }
+
+fillFields();
+
+// Сreate new formvalidator instance
+const profileFormValidator = new FormValidator(formElements, profileForm);
+const cardFormValidator = new FormValidator(formElements, cardForm);
+// Use public method of formvalidator
+profileFormValidator.enableValidation();
+cardFormValidator.enableValidation();
+
 
 // Render cards from an array
 initialCards.forEach((item) => {
@@ -116,11 +140,7 @@ initialCards.forEach((item) => {
   const cardElement = card.createCard();
 
   //Add listener for showing imagePopup
-  cardElement.querySelector('.mesto-card__image').addEventListener('click', (evt)=>{
-    fillImagePopup(evt.target);
-    openPopup(imagePopup);
-    closePopupByKeyboard(imagePopup);
-  })
+  cardImageListener(cardElement)
    // Add card to container
   cardsContainer.append(cardElement);
 });
@@ -157,28 +177,16 @@ popupCloseButtons.forEach(closeButton => {
 });
 
 profileEditButton.addEventListener('click', () => {
-
   fillFields();
-  // Сreate new formvalidator instance
-  const profileFormValidator = new FormValidator(formElements, profileForm);
-  // Use public method of formvalidator
-  profileFormValidator.enableValidation();
-
   openPopup(profilePopup);
   // Add hiding function to opened popup
   closePopupByKeyboard(profilePopup);
 });
 
-
 newCardButton.addEventListener('click',() => {
   // Reset form inputs
   cardForm.reset();
-  // Сreate new formvalidator instance
-  const cardFormValidator = new FormValidator(formElements, cardForm);
-  // Use public method of formvalidator
-  cardFormValidator.enableValidation();
 
   openPopup(newCardPopup);
   closePopupByKeyboard(newCardPopup);
 });
-

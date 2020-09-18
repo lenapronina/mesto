@@ -1,13 +1,13 @@
 class FormValidator {
 
   // Pass object with selectors names and formElement value
-  constructor(object, formElement) {
+  constructor(formParams, formElement) {
    this._formElement = formElement;
-   this._inputSelector = object.inputSelector;
-   this._submitButtonSelector = object.submitButtonSelector;
-   this._inactiveButtonClass = object.inactiveButtonClass;
-   this._inputErrorClass = object.inputErrorClass;
-   this._errorClass = object.errorClass;
+   this._inputSelector = formParams.inputSelector;
+   this._submitButtonSelector = formParams.submitButtonSelector;
+   this._inactiveButtonClass = formParams.inactiveButtonClass;
+   this._inputErrorClass = formParams.inputErrorClass;
+   this._errorClass = formParams.errorClass;
   }
 
   // Add span element with error message and change input style
@@ -35,7 +35,7 @@ class FormValidator {
     }
   }
 
-  _hasInvalidInput(inputElement){
+  _hasInvalidInput(){
     return this._inputList.some((inputElement) => {
       return !inputElement.validity.valid;
     })
@@ -79,7 +79,7 @@ class FormValidator {
         evt.preventDefault();
     });
     // Call function with input listeners
-    this._setEventListeners(this._formElement);
+    this._setEventListeners();
   }
 }
 

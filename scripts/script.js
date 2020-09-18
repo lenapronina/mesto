@@ -96,7 +96,7 @@ function addCardForm () {
   }
   // Сreate new card instance
   const card = new Card(cardProperties, '.mesto-template');
-  const cardElement = card.render();
+  const cardElement = card.createCard();
 
   //Add listener for showing imagePopup
   cardElement.querySelector('.mesto-card__image').addEventListener('click', (evt)=>{
@@ -112,8 +112,8 @@ function addCardForm () {
 initialCards.forEach((item) => {
   // Сreate new card instance
   const card = new Card(item, '.mesto-template');
-  // Render card
-  const cardElement = card.render();
+  // Сreate card
+  const cardElement = card.createCard();
 
   //Add listener for showing imagePopup
   cardElement.querySelector('.mesto-card__image').addEventListener('click', (evt)=>{

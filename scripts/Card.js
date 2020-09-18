@@ -36,12 +36,15 @@ class Card {
     });
   }
 
-  render() {
+  createCard() {
     this._element = this._getTemplate();
 
-    this._element.querySelector('.mesto-card__image').src = this._image;
-    this._element.querySelector('.mesto-card__image').alt = this._title;
-    this._element.querySelector('.mesto-card__title').textContent = this._title;
+    const elementImage = this._element.querySelector('.mesto-card__image');
+    const elementTitle = this._element.querySelector('.mesto-card__title');
+
+    elementImage.src = this._image;
+    elementImage.alt = this._title;
+    elementTitle.textContent = this._title;
 
     this._setEventListeners();
 

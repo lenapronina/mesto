@@ -1,6 +1,9 @@
+import Section from './Section.js';
+import UserInfo from './UserInfo.js';
 import initialCards from './initialCards.js';
 import { Card } from './Card.js';
 import { FormValidator } from './FormValidator.js';
+
 
 const formElements = {
   formSelector: '.popup__form',
@@ -72,8 +75,9 @@ function closePopupByKeyboard(popupName) {
 
 // Rewriting input fields with values from profile
 function fillFields() {
-  nameInput.value = nameProfile.textContent;
-  jobInput.value = jobProfile.textContent;
+  const valuesFromProfile = userProfile.getUserInfo()
+  nameInput.value = valuesFromProfile.name;
+  jobInput.value = valuesFromProfile.job;
 }
 
 // Fill imagePopup with data from card
@@ -98,10 +102,12 @@ function cardImageListener(card){
 
 // Rewriting profile data with name and job values from profileForm
 function editProfileForm () {
+
   const nameValue = nameInput.value;
   const jobValue = jobInput.value;
-  nameProfile.textContent = nameValue;
-  jobProfile.textContent = jobValue;
+  userProfile.setUserInfo(nameValue, jobValue)
+  // nameProfile.textContent = nameValue;
+  // jobProfile.textContent = jobValue;
 }
 
 
@@ -119,10 +125,13 @@ function addCardForm () {
   //Add listener for showing imagePopup
   cardImageListener(cardElement)
   // Add card to container
-  cardsContainer.prepend(cardElement);
+  cardList.addItem(cardElement, 'prepend');
 }
 
-fillFields();
+const userProfile = new UserInfo({
+  nameSelector: nameProfile,
+  infoSelector: jobProfile
+});
 
 // Сreate new formvalidator instance
 const profileFormValidator = new FormValidator(formElements, profileForm);
@@ -132,18 +141,17 @@ profileFormValidator.enableValidation();
 cardFormValidator.enableValidation();
 
 
-// Render cards from an array
-initialCards.forEach((item) => {
-  // Сreate new card instance
-  const card = new Card(item, '.mesto-template');
-  // Сreate card
-  const cardElement = card.createCard();
+const cardList = new Section({
+  items: initialCards,
+  renderer:(cardItem)=>{
+    const card = new Card(cardItem, '.mesto-template');
+    const cardElement = card.createCard();
+    cardImageListener(cardElement);
+    cardList.addItem(cardElement, 'append');
+  }
+}, cardsContainer);
 
-  //Add listener for showing imagePopup
-  cardImageListener(cardElement)
-   // Add card to container
-  cardsContainer.append(cardElement);
-});
+cardList.renderItems();
 
 profileForm.addEventListener('submit', evt =>{
   // Update profile inputs

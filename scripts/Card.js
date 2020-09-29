@@ -1,9 +1,10 @@
 class Card {
 
-  constructor(data, cardSelector){
-    this._title = data.name;
-    this._image = data.link;
+  constructor( {name, link, handleCardClick }, cardSelector,){
+    this._title = name;
+    this._image = link;
     this._cardSelector = cardSelector;
+    this._handleCardClick = handleCardClick;
   }
 
   _getTemplate() {
@@ -34,6 +35,9 @@ class Card {
     this._element.querySelector('.mesto-card__trash').addEventListener('click', (evt) => {
       this._handleDeleteClick(evt.target);
     });
+    this._element.querySelector('.mesto-card__image').addEventListener('click', ()=>{
+      this._handleCardClick();
+    })
   }
 
   createCard() {

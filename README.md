@@ -22,7 +22,10 @@ Mesto - первая проектная работа с использовани
 * Понятие всплытия/погружения в методе addEventListener
 * Использование функций, управление содержимым элементов
 * ООП: использование классов, создание приватных и публичных методов
+* ООП: связывание классов через функции-колбэки
+* Сборка проекта через Webpack
+
 
 **Используемые технологии**
 
-HTML · CSS · Flexbox · Grid-layout · BEM · Nested BEM · Git · JS · GitHubPages
+HTML · CSS · Flexbox · Grid-layout · BEM · Nested BEM · Git · JS · GitHubPages · Webpack · npm

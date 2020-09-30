@@ -19,13 +19,16 @@ export default class PopupWithForm extends Popup {
   close(){
     super.close();
     this._form.reset();
+    // this._submitButton = this._form.querySelector('.popup__submit-button');
+    // this._submitButton.classList.add('popup__submit-button_disabled');
+    // this._submitButton.setAttribute('disabled', true);
   }
 
   setEventListeners(){
     super.setEventListeners();
-    this._form.addEventListener('submit', ()=>{
+    this._form.addEventListener('submit', (evt) => {
+      evt.preventDefault();
       this._submitForm(this._getInputValues());
-
     });
   }
 }

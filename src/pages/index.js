@@ -1,3 +1,5 @@
+import './index.css';
+
 import {
   initialCards,
   formElements,
@@ -8,15 +10,15 @@ import {
   newCardButton,
   profileForm,
   cardForm
-} from '../../utils/constants.js';
+} from '../utils/constants.js';
 
-import { createCard } from '../../utils/utils.js'
+import { createCard } from '../utils/utils.js'
 
-import Section from '../../components/Section.js';
-import UserInfo from '../../components/UserInfo.js';
-import FormValidator from '../../components/FormValidator.js';
-import PopupWithImage from '../../components/PopupWithImage.js';
-import PopupWithForm from '../../components/PopupWithForm.js';
+import Section from '../components/Section.js';
+import UserInfo from '../components/UserInfo.js';
+import FormValidator from '../components/FormValidator.js';
+import PopupWithImage from '../components/PopupWithImage.js';
+import PopupWithForm from '../components/PopupWithForm.js';
 
 // UserInfo instance
 const userProfile = new UserInfo('.profile__title', '.profile__subtitle');

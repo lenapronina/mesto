@@ -1,6 +1,6 @@
 # Сервис Место
 
-[Ссылка на GitHubPages](https://lenapronina.github.io/mesto/index.html)
+[Ссылка на GitHubPages](https://lenapronina.github.io/mesto/dist/index.html)
 
 ![Project preview](./images/readme-image.png)
 

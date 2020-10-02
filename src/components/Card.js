@@ -24,8 +24,8 @@ class Card {
   }
 
   // Method for removing card
-  _handleDeleteClick(trashButton) {
-    trashButton.parentElement.remove()
+  _handleDeleteClick(deleteButton) {
+    deleteButton.parentElement.remove()
   }
 
   _setEventListeners() {

@@ -2,7 +2,9 @@ import './index.css';
 
 import {
   initialCards,
-  formElements,
+  formSelectors,
+  appendMethod,
+  prependMethod,
   cardsContainer,
   nameInput,
   jobInput,
@@ -14,7 +16,7 @@ import {
 
 import { createCard } from '../utils/utils.js'
 
-import Section from '../components/Section.js';
+import { Section } from '../components/Section.js';
 import UserInfo from '../components/UserInfo.js';
 import FormValidator from '../components/FormValidator.js';
 import PopupWithImage from '../components/PopupWithImage.js';
@@ -29,27 +31,26 @@ const imagePopup = new PopupWithImage('.popup_image-viewer');
 const cardList = new Section({
   items: initialCards,
   renderer:(cardItem) => {
-    cardList.addItem(createCard(cardItem, imagePopup), 'append');
+    cardList.addItem(createCard(cardItem, imagePopup), appendMethod);
   }
 }, cardsContainer);
 
-// PopupWithForm instance
-const profilePopup = new PopupWithForm('.popup_profile-edit', {
-  // Send values from fields into userProfile by submitting form
-  submitForm: (profileValues) =>{
-    userProfile.setUserInfo(profileValues.name, profileValues.job);
-    profilePopup.close();
-  }
-});
+// Set new profile values by submitting form
+const sumbitProfileForm = (profileValues) => {
+  userProfile.setUserInfo(profileValues.name, profileValues.job);
+  profilePopup.close();
+}
+
+// Add new Card to cardList by submitting form
+const submitNewCard = (cardProperties) => {
+  cardList.addItem(createCard(cardProperties, imagePopup), prependMethod);
+  newCardPopup.close();
+}
 
 // PopupWithForm instance
-const newCardPopup = new PopupWithForm ('.popup_add-card', {
-  // Create new card with data from form inputs
-  submitForm: (cardProperties) => {
-    cardList.addItem(createCard(cardProperties, imagePopup), 'prepend');
-    newCardPopup.close();
-  }
-});
+const profilePopup = new PopupWithForm('.popup_profile-edit', sumbitProfileForm);
+// PopupWithForm instance
+const newCardPopup = new PopupWithForm ('.popup_add-card', submitNewCard);
 
 // Rewriting input fields with values from userProfile
 const fillProfileInputs = () => {
@@ -58,10 +59,16 @@ const fillProfileInputs = () => {
   jobInput.value = valuesFromProfile.job;
 }
 
-// FormValidator instances
-const profileFormValidator = new FormValidator(formElements, profileForm);
-const cardFormValidator = new FormValidator(formElements, cardForm);
+// Fill inputs before first userProfile validation
+fillProfileInputs()
 
+// FormValidator instances
+const profileFormValidator = new FormValidator(formSelectors, profileForm);
+const cardFormValidator = new FormValidator(formSelectors, cardForm);
+
+ // Enable validation
+profileFormValidator.enableValidation();
+cardFormValidator.enableValidation();
 
 // Render cards into the cardsContainer
 cardList.renderItems();
@@ -75,12 +82,8 @@ newCardPopup.setEventListeners();
 profileEditButton.addEventListener('click', () => {
   fillProfileInputs();
   profilePopup.open();
-  // Enable validation
-  profileFormValidator.enableValidation();
 });
 
 newCardButton.addEventListener('click',() => {
   newCardPopup.open();
-  // Enable validation
-  cardFormValidator.enableValidation();
 });

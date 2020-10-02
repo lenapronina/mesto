@@ -1,8 +1,10 @@
-export default class Section {
-  constructor({ items, renderer }, containerSelector) {
+import { appendMethod } from '../utils/constants.js';
+
+export class Section {
+  constructor({ items, renderer }, container) {
     this._renderedItems = items;
     this._renderer = renderer;
-    this._container = containerSelector;
+    this._container = container;
   }
 
   renderItems() {
@@ -10,7 +12,7 @@ export default class Section {
   }
 
   addItem(element, method) {
-    if(method == 'append'){
+    if(method == appendMethod){
       this._container.append(element);
     } else {
       this._container.prepend(element);

@@ -59,13 +59,11 @@ export default class FormValidator {
 
   // Change submitButton style by adding/removing class
   _toggleButtonState() {
-
     if (!this._hasInvalidInput()) {
       // Make active if all are valid
       this._buttonElement.classList.remove(this._inactiveButtonClass);
       this._buttonElement.removeAttribute('disabled', true);
     } else {
-
       //If some of inpupts are invalid make button disabled
       this._buttonElement.classList.add(this._inactiveButtonClass);
       this._buttonElement.setAttribute('disabled', true);

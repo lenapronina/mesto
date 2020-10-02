@@ -1,16 +1,13 @@
 import { Card } from '../components/Card.js';
 
 
-export const createCard = (cardParams, popupName) => {
+export const createCard = (cardParams, popupWithImage) => {
   const card = new Card({
     name: cardParams.name,
     link: cardParams.link,
     handleCardClick: () =>{
-      popupName.open( cardParams.name, cardParams.link);
-      popupName.setEventListeners();
+      popupWithImage.open( cardParams.name, cardParams.link);
     }
   }, '.mesto-template');
-  const cardElement = card.createCard();
-
-  return cardElement;
+  return card.createCard();;
 }

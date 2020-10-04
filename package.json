@@ -21,6 +21,7 @@
   "homepage": "https://github.com/lenapronina/mesto#readme",
   "devDependencies": {
     "@babel/core": "^7.11.6",
+    "@babel/plugin-proposal-class-properties": "^7.10.4",
     "@babel/preset-env": "^7.11.5",
     "autoprefixer": "^10.0.1",
     "babel-loader": "^8.1.0",

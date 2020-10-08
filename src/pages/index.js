@@ -14,6 +14,8 @@ import {
   cardForm
 } from '../utils/constants.js';
 
+import { Api } from '../components/Api.js'
+
 import { createCard } from '../utils/utils.js'
 
 import { Section } from '../components/Section.js';
@@ -22,18 +24,42 @@ import FormValidator from '../components/FormValidator.js';
 import PopupWithImage from '../components/PopupWithImage.js';
 import PopupWithForm from '../components/PopupWithForm.js';
 
+const api = new Api({
+  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-16',
+  headers: {
+    authorization: 'fba2c732-c582-4b59-a665-759f5dbd039a',
+    'Content-Type': 'application/json'
+  }
+});
+
 // UserInfo instance
-const userProfile = new UserInfo('.profile__title', '.profile__subtitle');
+const userProfile = new UserInfo('.profile__title', '.profile__subtitle', '.profile__avatar');
+
+api.getAllInitialData()
+  .then((data) => {
+    const [ initialCardsList, userProfileData] = data;
+    const cardList = new Section({
+      items: initialCardsList,
+      renderer:(cardItem) => {
+        cardList.addItem(createCard(cardItem, imagePopup), appendMethod);
+      }
+    }, cardsContainer);
+    cardList.renderItems();
+
+    userProfile.setUserInfo(userProfileData);
+  })
+  .catch((err) => {console.log(err)});
+
+
 // PopupWithImage instance
 const imagePopup = new PopupWithImage('.popup_image-viewer');
 
+
+
 // Section instance
-const cardList = new Section({
-  items: initialCards,
-  renderer:(cardItem) => {
-    cardList.addItem(createCard(cardItem, imagePopup), appendMethod);
-  }
-}, cardsContainer);
+
+
+
 
 // Set new profile values by submitting form
 const sumbitProfileForm = (profileValues) => {
@@ -71,7 +97,7 @@ profileFormValidator.enableValidation();
 cardFormValidator.enableValidation();
 
 // Render cards into the cardsContainer
-cardList.renderItems();
+
 
 // Add listeners to all popups
 imagePopup.setEventListeners();

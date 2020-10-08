@@ -1,8 +1,9 @@
 class Card {
 
-  constructor( {name, link, handleCardClick }, cardSelector,){
+  constructor( {name, link, likes, handleCardClick }, cardSelector,){
     this._title = name;
     this._image = link;
+    this._likeNumber = likes;
     this._cardSelector = cardSelector;
     this._handleCardClick = handleCardClick;
   }
@@ -45,10 +46,15 @@ class Card {
 
     const elementImage = this._element.querySelector('.mesto-card__image');
     const elementTitle = this._element.querySelector('.mesto-card__title');
+    const likeCounter = this._element.querySelector('.mesto-card__like-number');
 
     elementImage.src = this._image;
     elementImage.alt = this._title;
     elementTitle.textContent = this._title;
+
+    if(this._likeNumber){
+      likeCounter.textContent = this._likeNumber.length;
+    }
 
     this._setEventListeners();
 

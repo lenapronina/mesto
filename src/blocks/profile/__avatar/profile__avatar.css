@@ -6,4 +6,24 @@
   background-size: cover;
   background-repeat: no-repeat;
   border-radius: 50%;
+  cursor: pointer;
+}
+
+.profile__avatar::after {
+  content: '';
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  background-image: url(../../../images/profile-edit-brush.svg);
+  background-color:rgba(0, 0, 0, 0.8);
+  background-position: center;
+  background-size: 26px 26px;
+  background-repeat: no-repeat;
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity 0.3s linear;
+}
+
+.profile__avatar:hover::after {
+  opacity: 1;
 }

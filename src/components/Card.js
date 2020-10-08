@@ -20,7 +20,7 @@ class Card {
 
   // Method for making likeButton active
   _handleLikeClick(likeButton) {
-    likeButton.classList.toggle('mesto-card__like_active');
+    likeButton.classList.toggle('mesto-card__like-icon_active');
   }
 
   // Method for removing card
@@ -29,12 +29,12 @@ class Card {
   }
 
   _setEventListeners() {
-    this._element.querySelector('.mesto-card__like').addEventListener('click', (evt) => {
+    this._element.querySelector('.mesto-card__like-icon').addEventListener('click', (evt) => {
       this._handleLikeClick(evt.target);
     });
-    this._element.querySelector('.mesto-card__trash').addEventListener('click', (evt) => {
-      this._handleDeleteClick(evt.target);
-    });
+    // this._element.querySelector('.mesto-card__trash').addEventListener('click', (evt) => {
+    //   this._handleDeleteClick(evt.target);
+    // });
     this._element.querySelector('.mesto-card__image').addEventListener('click', ()=>{
       this._handleCardClick();
     })

@@ -66,6 +66,30 @@
       </form>
     </div>
   </div>
+  <div class="popup popup_avatar-update">
+    <div class="popup__container">
+      <div class="popup__header">
+        <h2 class="popup__title">Обновить аватар</h2>
+        <button class="popup__close-button"></button>
+      </div>
+      <form class="popup__form" id="form-editavatar" name="form-editavatar" method="POST" action="#" novalidate>
+        <div class="popup__field">
+          <input class="popup__input" name="avatar" id="avatar" placeholder="Название" type="url" required>
+          <span class="popup__input-error" id="avatar-error"></span>
+        </div>
+        <button class="popup__submit-button" type="submit">Сохранить</button>
+      </form>
+    </div>
+  </div>
+  <div class="popup popup_submit-action">
+    <div class="popup__container">
+      <div class="popup__header">
+        <h2 class="popup__title">Вы уверены?</h2>
+        <button class="popup__close-button"></button>
+      </div>
+      <button class="popup__submit-button" type="submit">Да</button>
+    </div>
+  </div>
   <div class="popup popup_image-viewer">
     <div class="popup__container popup__container_type_image">
       <figure class="popup__figure">
@@ -78,10 +102,25 @@
   <template class="mesto-template">
     <li class="mesto-card">
       <img class="mesto-card__image" src="#" alt="#">
+      <div class="mesto-card__info">
+        <h2 class="mesto-card__title"></h2>
+        <div class="mesto-card__like-group">
+          <button class="mesto-card__like-icon"></button>
+          <p class="mesto-card__like-number">33</p>
+        </div>
+      </div>
+    </li>
+  </template>
+  <template class="mesto-template_removable">
+    <li class="mesto-card">
+      <img class="mesto-card__image" src="#" alt="#">
       <button class="mesto-card__trash"></button>
       <div class="mesto-card__info">
         <h2 class="mesto-card__title"></h2>
-        <button class="mesto-card__like"></button>
+        <div class="mesto-card__like-group">
+          <button class="mesto-card__like-icon"></button>
+          <p class="mesto-card__like-number">33</p>
+        </div>
       </div>
     </li>
   </template>

@@ -1,0 +1,6 @@
+.mesto-card__like-group {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}

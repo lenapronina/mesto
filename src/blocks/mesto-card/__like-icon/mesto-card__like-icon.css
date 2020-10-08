@@ -1,4 +1,4 @@
-.mesto-card__like {
+.mesto-card__like-icon {
   width: 21px;
   height: 19px;
   background-image: url(../../../images/mesto-card-like.svg);
@@ -10,6 +10,6 @@
   transition: opacity 0.3s linear;
 }
 
-.mesto-card__like:hover {
+.mesto-card__like-icon:hover {
   opacity: 0.6;
 }

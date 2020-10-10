@@ -7,6 +7,8 @@ export const formSelectors = {
   errorClass: 'popup__input-error_active'
 };
 
+export const myId = "73f3cfeafaaf68c0631ba345";
+
 export const escapeKeyCode = 27;
 
 export const appendMethod = 'append';
@@ -48,6 +50,8 @@ export const jobInput = document.querySelector('#job');
 
 export const profileEditButton = document.querySelector('.profile__edit-button');
 export const newCardButton = document.querySelector('.profile__add-button');
+export const profileAvatarButton = document.querySelector('.profile__avatar');
 
 export const profileForm = document.querySelector('#form-edit');
 export const cardForm = document.querySelector('#form-addcard');
+export const avatarForm = document.querySelector('#form-editavatar');

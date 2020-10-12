@@ -87,7 +87,7 @@
         <h2 class="popup__title">Вы уверены?</h2>
         <button class="popup__close-button"></button>
       </div>
-      <button class="popup__submit-button" type="submit">Да</button>
+      <button class="popup__submit-button popup__submit-button-action" type="submit">Да</button>
     </div>
   </div>
   <div class="popup popup_image-viewer">
@@ -99,20 +99,15 @@
       <button class="popup__close-button"></button>
     </div>
   </div>
-  <template class="mesto-template">
-    <li class="mesto-card">
-      <img class="mesto-card__image" src="#" alt="#">
-      <button class="mesto-card__trash"></button>
-      <div class="mesto-card__info">
-        <h2 class="mesto-card__title"></h2>
-        <div class="mesto-card__like-group">
-          <button class="mesto-card__like-icon"></button>
-          <p class="mesto-card__like-number"></p>
-        </div>
+  <div class="popup popup_load-failure">
+    <div class="popup__container">
+      <div class="popup__header">
+        <h2 class="popup__title">Сервер нам почему-то не отвечает😢</h2>
       </div>
-    </li>
-  </template>
-  <template class="mesto-template_removable">
+      <p class="popup__paragraph">Попробуйте перезагрузить страницу</p>
+    </div>
+  </div>
+  <template class="mesto-template">
     <li class="mesto-card">
       <img class="mesto-card__image" src="#" alt="#">
       <button class="mesto-card__trash"></button>

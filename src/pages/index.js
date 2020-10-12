@@ -1,7 +1,6 @@
 import './index.css';
 
 import {
-  initialCards,
   formSelectors,
   appendMethod,
   prependMethod,
@@ -13,21 +12,24 @@ import {
   profileAvatarButton,
   profileForm,
   cardForm,
-  avatarForm
+  avatarForm,
+  profileSubmitButton,
+  cardSubmitButton,
+  avatarSubmitButton,
+  popupLoadingFailure
 } from '../utils/constants.js';
 
-import { Api } from '../components/Api.js'
-
+import { renderLoading } from '../utils/utils.js';
+import { Api } from '../components/Api.js';
 import { Card } from '../components/Card.js';
 import { Section } from '../components/Section.js';
 import UserInfo from '../components/UserInfo.js';
-import PopupWithSubmit from '../components/PopupWithSubmit.js';
 import FormValidator from '../components/FormValidator.js';
+import PopupWithSubmit from '../components/PopupWithSubmit.js';
 import PopupWithImage from '../components/PopupWithImage.js';
 import PopupWithForm from '../components/PopupWithForm.js';
 
-const submitButton = document.querySelector('.popup__submit-button-avatar')
-
+// FormValidator instances
 const profileFormValidator = new FormValidator(formSelectors, profileForm);
 const cardFormValidator = new FormValidator(formSelectors, cardForm);
 const avatarFormValidator = new FormValidator(formSelectors, avatarForm);
@@ -40,28 +42,7 @@ const api = new Api({
   }
 });
 
-const submitAction = (id, button)=>{
-  api.deleteCard(id)
-    .then(() => {
-      button.parentElement.remove();
-      popupWithSubmit.close()
-    })
-}
-
-const popupWithSubmit = new PopupWithSubmit('.popup_submit-action', submitAction);
-
-
-
-function renderLoading(isLoading, initialText){
-  if(isLoading){
-    submitButton.textContent = 'Сохранение...';
-  } else {
-    submitButton.textContent = initialText;
-  }
-}
-
-const createCard = (cardParams, popupWithImage) => {
-
+const createCard = (cardParams, popupWithImage, popupWithSubmit) => {
   const card = new Card( cardParams, '.mesto-template', {
     handleLikeClick:(likes) => {
       if(card.isLiked(likes)){
@@ -81,121 +62,130 @@ const createCard = (cardParams, popupWithImage) => {
     handleCardClick: () => {
       popupWithImage.open(cardParams.name, cardParams.link);
     },
-    handleDeleteClick: (element) => {
-      popupWithSubmit.open();
-      popupWithSubmit.setEventListeners(cardParams._id, element);
+    handleDeleteClick: (deleteButton) => {
+      popupWithSubmit.open(cardParams._id, deleteButton);
     }
   });
   return card.createCard();
 }
-// PopupWithImage instance
-const imagePopup = new PopupWithImage('.popup_image-viewer');
 
-
-
-// UserInfo instance
-const userProfile = new UserInfo('.profile__title', '.profile__subtitle', '.profile__avatar');
 
 api.getAllInitialData()
   .then((data) => {
     const [ initialCardsList, userProfileData] = data;
+
+    const submitAction = (id, childElement)=>{
+      api.deleteCard(id)
+        .then(() => {
+          childElement.parentElement.remove();
+        })
+        .catch(err => console.log(err))
+        .finally(()=>{
+          popupDeleteConfirm.close()
+        })
+    }
+    const popupDeleteConfirm = new PopupWithSubmit('.popup_submit-action', submitAction);
+    const imagePopup = new PopupWithImage('.popup_image-viewer');
+
+    imagePopup.setEventListeners();
+    popupDeleteConfirm.setEventListeners();
+
     const cardList = new Section({
       items: initialCardsList,
       renderer:(cardItem) => {
-        cardList.addItem(createCard(cardItem, imagePopup), appendMethod);
+        cardList.addItem(createCard(cardItem, imagePopup, popupDeleteConfirm), appendMethod);
       }
     }, cardsContainer);
     cardList.renderItems();
 
-    userProfile.setInitialInfo(userProfileData);
-    return cardList;
+    const userProfile = new UserInfo('.profile__title', '.profile__subtitle', '.profile__avatar');
+
+    userProfile.setUserInfo(userProfileData);
+    return [cardList, userProfile, imagePopup, popupDeleteConfirm];
   })
-  .then((cardList) =>{
-
-
-
-
-
-
-
-    const sumbitProfileForm = (profileValues) => {
-      api.patchUpdatedUserInfo(profileValues)
-        .then((json)=> {
-          userProfile.setInitialInfo(json);
-        })
-      .catch((err) => {console.log(err)});
-
-      profilePopup.close();
-    }
+  .then(([cardList, userProfile, imagePopup, popupDeleteConfirm]) => {
 
     const sumbitAvatarForm = (avatarValue) => {
-      renderLoading(true, 'Сохранить');
+      renderLoading(true, avatarSubmitButton);
       api.patchUserAvatar(avatarValue)
-        .then((json)=> {
-          console.log('2121')
-          userProfile.setInitialInfo(json);
+        .then((json) => {
+          userProfile.updateAvatar(json);
           avatarPopup.close();
         })
-      .catch((err) => {console.log(err)})
-      .finally(()=>{
-        renderLoading(false, 'Сохранить');
+        .catch(err => console.log(err))
+      .finally(() => {
+        renderLoading(false, avatarSubmitButton, 'Сохранить');
       });
     }
 
+    const avatarPopup = new PopupWithForm('.popup_avatar-update', sumbitAvatarForm);
+
     const submitNewCard = (cardProperties) => {
+      renderLoading(true, cardSubmitButton);
       api.postNewCard(cardProperties)
         .then((cardProperties) => {
-          cardList.addItem(createCard(cardProperties, imagePopup), prependMethod);
+          cardList.addItem(createCard(cardProperties, imagePopup, popupDeleteConfirm), prependMethod);
           newCardPopup.close();
         })
-        .catch((err) => {console.log(err)});
+        .catch(err => console.log(err))
+      .finally(()=> {
+        renderLoading(false, cardSubmitButton, 'Создать');
+      })
     }
 
-    // PopupWithForm instance
-const profilePopup = new PopupWithForm('.popup_profile-edit', sumbitProfileForm);
-// PopupWithForm instance
-const newCardPopup = new PopupWithForm ('.popup_add-card', submitNewCard);
+    const newCardPopup = new PopupWithForm ('.popup_add-card', submitNewCard);
 
-const avatarPopup = new PopupWithForm('.popup_avatar-update', sumbitAvatarForm);
-// Rewriting input fields with values from userProfile
-const fillProfileInputs = () => {
-  const valuesFromProfile = userProfile.getUserInfo();
-  nameInput.value = valuesFromProfile.name;
-  jobInput.value = valuesFromProfile.job;
-}
+    const sumbitProfileForm = (profileValues) => {
+      renderLoading(true, profileSubmitButton);
+      api.patchUpdatedUserInfo(profileValues)
+        .then((json)=> {
+          userProfile.updateUserInfo(json);
+          profilePopup.close();
+        })
+        .catch(err => console.log(err))
+      .finally(()=> {
+        renderLoading(false, profileSubmitButton, 'Сохранить');
+      })
+    }
 
-// Fill inputs before first userProfile validation
-fillProfileInputs()
+    const profilePopup = new PopupWithForm('.popup_profile-edit', sumbitProfileForm);
 
-// FormValidator instances
+    // Rewriting input fields with values from userProfile
+    const fillProfilePopupInputs = () => {
+      const valuesFromProfile = userProfile.getUserInfo();
+      nameInput.value = valuesFromProfile.name;
+      jobInput.value = valuesFromProfile.job;
+    }
 
+    // Fill inputs before first userProfile validation
+    fillProfilePopupInputs();
 
- // Enable validation
-profileFormValidator.enableValidation();
-cardFormValidator.enableValidation();
-avatarFormValidator.enableValidation();
+    // Enable validation
+    profileFormValidator.enableValidation();
+    cardFormValidator.enableValidation();
+    avatarFormValidator.enableValidation();
 
-// Render cards into the cardsContainer
+    // Add listeners to popups
+    profilePopup.setEventListeners();
+    newCardPopup.setEventListeners();
+    avatarPopup.setEventListeners();
 
+    // Add listeners to buttons
+    profileEditButton.addEventListener('click', () => {
+      fillProfilePopupInputs();
+      profilePopup.open();
+    });
 
-// Add listeners to all popups
-imagePopup.setEventListeners();
-profilePopup.setEventListeners();
-newCardPopup.setEventListeners();
-avatarPopup.setEventListeners();
+    newCardButton.addEventListener('click',() => {
+      newCardPopup.open();
+    });
 
-// Add listeners to buttons
-profileEditButton.addEventListener('click', () => {
-  fillProfileInputs();
-  profilePopup.open();
-});
-
-newCardButton.addEventListener('click',() => {
-  newCardPopup.open();
-});
-
-profileAvatarButton.addEventListener('click', ()=>{
-  avatarPopup.open();
-});
+    profileAvatarButton.addEventListener('click', ()=>{
+      avatarPopup.open();
+    });
   })
-  .catch(err => console.log(err));
+  .catch((err) => {
+    console.log(err);
+    popupLoadingFailure.classList.add('popup_opened');
+    }
+  );

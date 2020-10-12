@@ -1,23 +1,28 @@
-import { checkResStatus } from '../utils/utils.js';
-
 class Api {
   constructor({baseUrl, headers}){
     this._baseURL = baseUrl;
     this._headers = headers
   }
 
+  _checkResStatus(res){
+    if (res.ok) {
+      return res.json();
+    }
+    return Promise.reject(`Ошибка: ${res.status}`)
+  }
+
   getInitialCards() {
     return fetch(`${this._baseURL}/cards`, {
       headers: this._headers
     })
-    .then((res) => checkResStatus(res));
+    .then(res => this._checkResStatus(res));
   }
 
   getUserInfo(){
     return fetch(`${this._baseURL}/users/me`, {
       headers: this._headers
     })
-    .then((res) => checkResStatus(res));
+    .then(res => this._checkResStatus(res));
   }
 
   getAllInitialData(){
@@ -32,7 +37,7 @@ class Api {
         avatar: updatedData.avatar
       })
     })
-    .then((res) => checkResStatus(res));
+    .then(res => this._checkResStatus(res));
   }
 
   patchUpdatedUserInfo(updatedData){
@@ -44,7 +49,7 @@ class Api {
         about: updatedData.job
       })
     })
-    .then((res) => checkResStatus(res));
+    .then(res => this._checkResStatus(res));
   }
 
   addLike(cardId){
@@ -52,7 +57,7 @@ class Api {
       method: 'PUT',
       headers: this._headers
     })
-    .then((res) => checkResStatus(res));
+    .then(res => this._checkResStatus(res));
   }
 
   deleteLike(cardId, card){
@@ -60,15 +65,15 @@ class Api {
       method: 'DELETE',
       headers: this._headers
     })
-    .then((res) => checkResStatus(res));
+    .then(res => this._checkResStatus(res));
   }
 
-  deleteCard(cardId, card){
+  deleteCard(cardId){
     return fetch(`${this._baseURL}/cards/${cardId}`, {
       method: 'DELETE',
       headers: this._headers
     })
-    .then((res) => checkResStatus(res));
+    .then(res => this._checkResStatus(res));
   }
 
   postNewCard(cardData){
@@ -80,7 +85,7 @@ class Api {
         link: cardData.link
       })
     })
-    .then((res) => checkResStatus(res));
+    .then(res => this._checkResStatus(res));
   }
 }
 

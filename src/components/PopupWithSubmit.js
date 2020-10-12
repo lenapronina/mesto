@@ -4,14 +4,20 @@ export default class PopupWithSubmit extends Popup {
   constructor(popupSelector, submitAction) {
     super(popupSelector);
     this._submitAction = submitAction;
+    this._submitButton = this._popup.querySelector('.popup__submit-button');
   }
 
-  setEventListeners(argumentik, elementic){
+  open(elementId, childElement){
+    super.open()
+    this._elementId = elementId;
+    this._childElement = childElement;
+  }
+
+  setEventListeners(){
     super.setEventListeners();
-    this._submitButton = this._popup.querySelector('.popup__submit-button');
     this._submitButton.addEventListener('click', (evt) => {
       evt.preventDefault();
-      this._submitAction(argumentik, elementic);
+      this._submitAction(this._elementId, this._childElement);
     });
   }
 }

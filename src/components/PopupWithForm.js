@@ -3,7 +3,8 @@ import { Popup } from './Popup.js';
 export default class PopupWithForm extends Popup {
   constructor(popupSelector, submitForm) {
     super(popupSelector);
-    this._form = this._popup.querySelector('.popup__form')
+    this._form = this._popup.querySelector('.popup__form');
+    this._submitButton = this._popup.querySelector('.popup__submit-button');
     this._submitForm = submitForm;
   }
 
@@ -16,9 +17,22 @@ export default class PopupWithForm extends Popup {
     return this._formValues;
   }
 
+  _updeteButtonState(inputValues){
+    const valuesArray = Array.from(Object.values(inputValues));
+    if(valuesArray.some(elem => elem == "")){
+      this._submitButton.setAttribute('disabled', true);
+      this._submitButton.classList.add('popup__submit-button_disabled');
+    }
+  }
+
+  open(){
+    super.open();
+    this._updeteButtonState(this._getInputValues())
+  }
+
   close(){
-    this._form.reset();
     super.close();
+    this._form.reset();
   }
 
   setEventListeners(){

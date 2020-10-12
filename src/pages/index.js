@@ -187,5 +187,5 @@ api.getAllInitialData()
   .catch((err) => {
     console.log(err);
     popupLoadingFailure.classList.add('popup_opened');
-    }
-  );
+  }
+);

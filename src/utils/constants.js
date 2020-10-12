@@ -1,4 +1,3 @@
-import image from '../images/profile-avatar.jpg'
 export const formSelectors = {
   formSelector: '.popup__form',
   inputSelector: '.popup__input',

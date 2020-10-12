@@ -1,10 +1,13 @@
+import { myId } from '../utils/constants.js'
+
 class Card {
 
-  constructor(data, {handleCardClick, handleLikeClick, handleDeleteClick }, cardSelector){
+  constructor( data, cardSelector, { handleCardClick, handleLikeClick, handleDeleteClick }){
     this._title = data.name;
     this._image = data.link;
-    this._likeNumber = data.likes;
+    this._likes = data.likes;
     this._id = data.id;
+    this._owner = data.owner._id;
     this._cardSelector = cardSelector;
     this._handleCardClick = handleCardClick;
     this._handleLikeClick = handleLikeClick;
@@ -22,29 +25,50 @@ class Card {
     return cardElement;
   }
 
-  // Method for making likeButton active
-  // _handleLikeClick(likeButton) {
-  //   console.log(likeButton)
-  //   //return this._handleLikeClick()
-  //   likeButton.classList.toggle('mesto-card__like-icon_active');
-  // }
+  // check card owner to show or hide deleteButton element
+  _checkCardOwner(){
+    if(!(this._owner === myId)){
+      this._deleteButton.style.display = 'none';
+    }
+  }
 
-  // Method for removing card
-  // _handleDeleteClick(deleteButton) {
-  //   deleteButton.parentElement.remove()
-  // }
+  // add or remove active class from button
+  _addLikeActiveClass(){
+    this._likeButton.classList.add('mesto-card__like-icon_active');
+  }
+  _removeLikeActiveClass(){
+    this._likeButton.classList.remove('mesto-card__like-icon_active');
+  }
+
+  // check likes from my id
+  isLiked(likes){
+    if(likes.find(item => item._id === myId)){
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  // updated likes data after server response
+  updatedLikesState(data){
+    this._likes = data;
+    //change likes info
+    this._likeCounter.textContent = this._likes.length;
+    if( this._likeButton.classList.contains('mesto-card__like-icon_active')){
+      this._removeLikeActiveClass();
+    } else {
+      this._addLikeActiveClass();
+    }
+  }
 
   _setEventListeners() {
-    this._element.querySelector('.mesto-card__like-icon').addEventListener('click', (evt) => {
-      this._handleLikeClick(evt.target);
-      this._likeCounter.textContent = this._likeNumber.length + 1;
+    this._likeButton.addEventListener('click', (evt) => {
+      this._handleLikeClick(this._likes);
     });
-    if(this._element.querySelector('.mesto-card__trash')){
-      this._element.querySelector('.mesto-card__trash').addEventListener('click', (evt) => {
-        this._handleDeleteClick(this._trash);
-      });
-    }
-    this._element.querySelector('.mesto-card__image').addEventListener('click', ()=>{
+    this._deleteButton.addEventListener('click', (evt) => {
+      this._handleDeleteClick(this._deleteButton);
+    });
+    this._elementImage.addEventListener('click', ()=>{
       this._handleCardClick();
     })
   }
@@ -52,17 +76,22 @@ class Card {
   createCard() {
     this._element = this._getTemplate();
 
-    const elementImage = this._element.querySelector('.mesto-card__image');
-    const elementTitle = this._element.querySelector('.mesto-card__title');
+    this._elementImage = this._element.querySelector('.mesto-card__image');
+    this._elementTitle = this._element.querySelector('.mesto-card__title');
+    this._likeButton = this._element.querySelector('.mesto-card__like-icon')
     this._likeCounter = this._element.querySelector('.mesto-card__like-number');
-    this._trash = this._element.querySelector('.mesto-card__trash');
-    elementImage.src = this._image;
-    elementImage.alt = this._title;
-    elementTitle.textContent = this._title;
+    this._deleteButton = this._element.querySelector('.mesto-card__trash');
 
-    if(this._likeNumber){
-      this._likeCounter.textContent = this._likeNumber.length;
+    this._elementImage.src = this._image;
+    this._elementImage.alt = this._title;
+    this._elementTitle.textContent = this._title;
+    this._likeCounter.textContent = this._likes.length;
+
+    if(this.isLiked(this._likes)){
+      this._addLikeActiveClass();
     }
+
+    this._checkCardOwner();
 
     this._setEventListeners();
 
@@ -70,4 +99,4 @@ class Card {
   }
 }
 
-export {Card};
+export { Card };

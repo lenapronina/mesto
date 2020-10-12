@@ -3,7 +3,6 @@ import './index.css';
 import {
   initialCards,
   formSelectors,
-  myId,
   appendMethod,
   prependMethod,
   cardsContainer,
@@ -19,7 +18,6 @@ import {
 
 import { Api } from '../components/Api.js'
 
-//import { createCard } from '../utils/utils.js'
 import { Card } from '../components/Card.js';
 import { Section } from '../components/Section.js';
 import UserInfo from '../components/UserInfo.js';
@@ -42,11 +40,11 @@ const api = new Api({
   }
 });
 
-const submitAction =(id, button)=>{
-  console.log(button)
+const submitAction = (id, button)=>{
   api.deleteCard(id)
-    .then(()=> {
-      button.parentElement.remove()
+    .then(() => {
+      button.parentElement.remove();
+      popupWithSubmit.close()
     })
 }
 
@@ -57,42 +55,37 @@ const popupWithSubmit = new PopupWithSubmit('.popup_submit-action', submitAction
 function renderLoading(isLoading, initialText){
   if(isLoading){
     submitButton.textContent = 'Сохранение...';
-    console.log('сохранение')
   } else {
     submitButton.textContent = initialText;
   }
 }
 
-const selectCardType = (cardData) =>{
-  if(cardData.owner._id == myId){
-    return '.mesto-template_removable';
-  } else {
-    return '.mesto-template';
-  }
-}
-
 const createCard = (cardParams, popupWithImage) => {
 
-  const card = new Card(cardParams, {
-    handleLikeClick:(like)=>{
-      api.addLike(cardParams._id)
-        .then((data)=>{
-          // if(data.some(()=>{
-
-          // }))
-          like.classList.add('mesto-card__like-icon_active');
-          console.log(data.likes)
-        })
+  const card = new Card( cardParams, '.mesto-template', {
+    handleLikeClick:(likes) => {
+      if(card.isLiked(likes)){
+        api.deleteLike(cardParams._id)
+          .then(data => {
+            card.updatedLikesState(data.likes)
+          })
+          .catch(err => console.log(err));
+      } else {
+        api.addLike(cardParams._id)
+          .then(data => {
+            card.updatedLikesState(data.likes)
+          })
+          .catch(err => console.log(err));
+      }
     },
-    handleCardClick: () =>{
-      popupWithImage.open( cardParams.name, cardParams.link);
+    handleCardClick: () => {
+      popupWithImage.open(cardParams.name, cardParams.link);
     },
-    handleDeleteClick: (element)=> {
-      console.log(element)
+    handleDeleteClick: (element) => {
       popupWithSubmit.open();
       popupWithSubmit.setEventListeners(cardParams._id, element);
     }
-  }, selectCardType(cardParams));
+  });
   return card.createCard();
 }
 // PopupWithImage instance
@@ -205,29 +198,4 @@ profileAvatarButton.addEventListener('click', ()=>{
   avatarPopup.open();
 });
   })
-  .catch((err) => {console.log(err)});
-
-
-
-
-
-
-// Section instance
-// api.patchUpdatedUserInfo()
-//   .then(res =>{
-//     console.log(res)
-//   })
-//   .catch((err) => {console.log(err)});
-
-
-
-// Set new profile values by submitting form
-
-
-// Add new Card to cardList by submitting form
-// const submitNewCard = (cardProperties) => {
-//   cardList.addItem(createCard(cardProperties, imagePopup), prependMethod);
-//   newCardPopup.close();
-// }
-
-
+  .catch(err => console.log(err));

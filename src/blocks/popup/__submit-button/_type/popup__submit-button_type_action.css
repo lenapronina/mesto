@@ -1,0 +1,9 @@
+.popup__submit-button_type_action {
+  width: calc(100% - 72px);
+}
+
+@media (max-width: 515px) {
+  .popup__submit-button_type_action  {
+    width: calc(100% - 40px);
+  }
+}

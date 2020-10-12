@@ -1,0 +1,9 @@
+.popup__container_type_avatar-update {
+  max-height: 272px;
+}
+
+@media (max-width: 515px) {
+  .popup__container_type_avatar-update  {
+    min-height: 195px;
+  }
+}
